@@ -30,7 +30,8 @@ def wait_for_key(stop_flag=None, timeout=50):
             return chr(char)
 
 # Define a function to handle output
-def output_util(stop_flag, exit_flag, output_event, synthesizer, clock_ticking, i, chapters=6):
+def output_util(current_chapter, tuple_args):
+    stop_flag, exit_flag, output_event, synthesizer, clock_ticking, chapters = tuple_args
     with print_lock:
         print("\033[2J\033[H")         # Clear the screen before printing
         test_str = "TEST STARTED"
@@ -46,12 +47,12 @@ def output_util(stop_flag, exit_flag, output_event, synthesizer, clock_ticking, 
         print("\033[F")
         print("\nCurrent location: ", end="")
         for temp in range(chapters):
-            if temp == i:
+            if temp == current_chapter:
                 print("[*]", end="")
             else:
                 print("[ ]", end="")
         print("\n")
-        print(f"\033[F\nChapter {i+1}")
+        print(f"\033[F\nChapter {current_chapter+1}")
         print("\033[F\n\n")
 
     while True and not exit_flag.is_set():
@@ -74,7 +75,8 @@ def output_util(stop_flag, exit_flag, output_event, synthesizer, clock_ticking, 
             synthesizer.speak_text_async("Resumed!")
 
 # Define a function to handle user input
-def input_util(stop_flag, exit_flag,output_event, clock_ticking):
+def input_util(tuple_args):
+    stop_flag, exit_flag, output_event, clock_ticking = tuple_args
     while True and not stop_flag.is_set():
         key = wait_for_key(stop_flag=stop_flag)
         output_event.set()
