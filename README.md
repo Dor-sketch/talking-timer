@@ -138,3 +138,5 @@ Contributions are welcome! Please fork the repository and submit a pull request.
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE).
+
+**Note:** This is an unofficial timer tool designed to help with the Israeli standard exam. This project is not affiliated with or endorsed by the official exam body.
