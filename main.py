@@ -79,9 +79,13 @@ class ThreadManager:
 
 
 if __name__ == "__main__":
-    with SetupManager() as setup_manager:
-        synthesizer, chapters, extra_essay = setup_manager.get_setup()
-    with ThreadManager(synthesizer=synthesizer, chapters=chapters, extra_essay=extra_essay) as thread_manager:
-        for i in range(thread_manager.chapters):
-            thread_manager.run_threads(i)
-        thread_manager.exit_flag.set()
+    try:
+        with SetupManager() as setup_manager:
+            synthesizer, chapters, extra_essay = setup_manager.get_setup()
+        with ThreadManager(synthesizer=synthesizer, chapters=chapters, extra_essay=extra_essay) as thread_manager:
+            for i in range(thread_manager.chapters):
+                thread_manager.run_threads(i)
+            thread_manager.exit_flag.set()
+    except KeyboardInterrupt:
+        print("Quitting!")
+        quit()

@@ -1,14 +1,33 @@
-import time
-import curses
+import atexit
 import threading
+import curses
+import time
 
-print_lock = threading.Lock() # Create a lock for synchronizing access to the standard output stream
-screen = curses.initscr() # Initialize the curses screen
-curses.resizeterm(0, 0) # Turn on automatic window resizing
-curses.noecho() # turn off auto echoing of keypress on to screen
-curses.cbreak() # turn off input buffering (so keypresses are passed to the app without waiting for enter to be pressed)
-screen.keypad(True) # enable special Key values such as curses.KEY_LEFT etc - allow arrow keys to be processed
+
+
+print_lock = threading.Lock()
+screen = curses.initscr()
+curses.noecho()
+curses.cbreak()
+screen.keypad(True)
 last_input_time = time.time()
+
+# Clean-up function for print_lock
+def cleanup_lock():
+    global print_lock
+    print_lock = None
+
+# Clean-up function for curses
+def cleanup_curses():
+    screen.keypad(False)
+    curses.nocbreak()
+    curses.echo()
+    curses.endwin()
+
+# Register clean-up functions to be executed when program exits
+atexit.register(cleanup_lock)
+atexit.register(cleanup_curses)
+
 
 def wait_for_key(stop_flag=None, timeout=50):
     global last_input_time

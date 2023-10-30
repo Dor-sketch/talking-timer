@@ -1,0 +1,42 @@
+# .gitignore
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.pyd
+*.so
+*.egg-info/
+
+# VSCode directories
+.vscode/
+
+# Ubuntu temporary files
+*~
+.DS_Store
+
+# Virtual Environment
+venv/
+myenv/
+
+*.mp3
+<_io.BytesIO object at 0x7f988e38fab0>
+<_io.BytesIO object at 0x7f922c4b3a60>
+azure_sdk_key.txt
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+
+# Compiled Dynamic libraries
+*.so
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+
+# Executables
+*.exe
+*.out
+*.app

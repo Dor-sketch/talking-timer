@@ -1,10 +1,6 @@
-import azure.cognitiveservices.speech as speechsdk
-import random
 import io_util
 
-# Constants
-AZURE_SDK_KEY_FILE = "azure_sdk_key.txt"
-AZURE_SDK_REGION = "eastus"
+from speaker import SpeakerFactory
 
 
 # Define the instructions as a list of strings
@@ -33,7 +29,7 @@ number_dict = {
 
 class SetupManager():
     def __init__(self):
-        self.synthesizer = self.setup_synthesizer()
+        self.synthesizer = SpeakerFactory.create_speaker()
         self.chapters, self.extra_essay = self.get_total_chapters()
 
     def __enter__(self):
@@ -50,45 +46,8 @@ class SetupManager():
     def get_setup(self):
         return self.synthesizer, self.chapters, self.extra_essay
 
-    def read_azure_sdk_key(self):
-        try:
-            with open(AZURE_SDK_KEY_FILE, 'r') as f:
-                return f.read().strip()
-        except FileNotFoundError:
-            print(
-                f"Could not find {AZURE_SDK_KEY_FILE} file. Please create it and add your Azure SDK key.")
-            exit()
-
-    def setup_synthesizer(self):
-        subscription_key = self.read_azure_sdk_key()
-        speech_config = speechsdk.SpeechConfig(
-            subscription=subscription_key, region="eastus")
-        audio_config = speechsdk.audio.AudioOutputConfig(
-            use_default_speaker=True)
-        synthesizer = speechsdk.SpeechSynthesizer(
-            speech_config=speech_config, audio_config=audio_config)
-        voices_result = synthesizer.get_voices_async().get()
-        voices = voices_result.voices
-        while True:
-            synthesizer = speechsdk.SpeechSynthesizer(
-                speech_config=speech_config, audio_config=audio_config)
-            random_voice = random.choice(voices)
-            # Set the speech synthesis voice to the random voice
-            speech_config.speech_synthesis_voice_name = random_voice.name
-            synthesizer.speak_text_async("Hello, world!")
-            io_util.screen.addstr("choose a voice... \n"
-                                  "Tester is: " + random_voice.name + "\n")
-            io_util.screen.addstr(
-                u"Press 'c' to continue or any other key to choose again\n")
-            if (io_util.wait_for_key() == 'c'):  # Check if a key has been pressed
-                break  # Exit the loop and resume the timer
-            else:
-                del synthesizer
-                io_util.screen.addstr("Deleted... \n")
-                io_util.screen.clear()
-        return synthesizer
-
     # a function to get the number of chapters from the user
+
     def get_chapters_from_input(self):
         self.synthesizer.speak_text_async(
             "Welcome back!")  # async = non-blocking
