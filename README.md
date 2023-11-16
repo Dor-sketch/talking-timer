@@ -4,6 +4,10 @@
 
 Psycho Timer is a Python program designed specifically for candidates preparing for the Psychometric Entrance Test (PET). It aids in effective time management during the test by setting individual timers for each section of the exam.
 
+![image](https://github.com/Dor-sketch/PsychoTimer/assets/138825033/b8bc8d23-0aae-4983-8932-52adaa34b6a5)
+
+---
+
 **New:** The program has recently been updated to support text-to-speech capabilities not only with Azure but also with Google Text-to-Speech and a local text-to-speech engine, providing enhanced flexibility and accessibility. It can now run without an internet connection and without requiring an Azure SDK key. It has been tested on macOS and Ubuntu 22.04.
 
 ## ✨ Features
