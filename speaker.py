@@ -1,17 +1,45 @@
+"""
+This module contains the SpeakerFactory class, which is used to create a speaker.
+
+The SpeakerFactory class is used to create a speaker. It checks if the user has
+an internet connection, and if so, it checks if the user is using Ubuntu 22.04.
+
+If the user is using Ubuntu 22.04, or if the user does not have an internet
+connection, the SpeakerFactory class will create a GttsAsyncWrapper object.
+
+If the user is not using Ubuntu 22.04 and has an internet connection, the
+SpeakerFactory class will check if the user has an Azure SDK key. If the user
+has an Azure SDK key, the SpeakerFactory class will create an AzureWrapper
+object. If the user does not have an Azure SDK key, the SpeakerFactory class
+will create a GttsAsyncWrapper object.
+
+If the user is using Ubuntu 22.04 and has an internet connection, the
+SpeakerFactory class will create a Pyttsx3AzureWrapper object.
+"""
 import socket
 import subprocess
-from gtts import gTTS
+import random
 import pyttsx3
 import azure.cognitiveservices.speech as speechsdk
-import random
+from gtts import gTTS
+from io_util import wait_for_key
+from io_util import screen
 
 AZURE_SDK_KEY_FILE = "azure_sdk_key.txt"
 AZURE_SDK_REGION = "eastus"
 
 
 class SpeakerFactory:
+    """
+    A factory class for creating a speaker.
+    """
     @staticmethod
-    def create_speaker():
+    def create_speaker() -> object:
+        """
+        Creates a speaker.
+
+        :return: A speaker.
+        """
         speaker = None
 
         if SpeakerFactory.check_internet_connection():
@@ -25,7 +53,12 @@ class SpeakerFactory:
         return speaker
 
     @staticmethod
-    def check_internet_connection():
+    def check_internet_connection() -> bool:
+        """
+        Checks if the user has an internet connection.
+
+        :return: True if the user has an internet connection, False otherwise.
+        """
         try:
             socket.gethostbyname('www.google.com')
             return True
@@ -33,7 +66,12 @@ class SpeakerFactory:
             return False
 
     @staticmethod
-    def is_ubuntu_2204():
+    def is_ubuntu_2204() -> bool:
+        """
+        Checks if the user is using Ubuntu 22.04.
+
+        :return: True if the user is using Ubuntu 22.04, False otherwise.
+        """
         try:
             with open("/etc/os-release") as f:
                 content = f.readlines()
@@ -49,20 +87,33 @@ class SpeakerFactory:
         return False
 
     @staticmethod
-    def read_azure_sdk_key():
+    def read_azure_sdk_key() -> str:
+        """
+        Reads the Azure SDK key from the file.
+
+        :return: The Azure SDK key.
+        """
         try:
-            with open(AZURE_SDK_KEY_FILE, 'r') as f:
+            with open(AZURE_SDK_KEY_FILE, 'r', encoding='utf-8') as f:
                 return f.read().strip()
         except FileNotFoundError:
-            return None
+            return ""
 
 
 class GttsAsyncWrapper:
+    """
+    A wrapper class for gTTS that mimics Azure TTS's interface.
+    """
     def __init__(self, lang='en'):
         self.lang = lang
         self.speak_text_async("Hello, world! I am google text to speech!")
 
     def speak_text_async(self, text):
+        """
+        Mimics Azure's speak_text_async method.
+
+        :param text: The text to be spoken.
+        """
         tts = gTTS(text=text, lang=self.lang)
         tts.save("temp.mp3")
         subprocess.Popen(["mpg321", "temp.mp3"],
@@ -89,20 +140,38 @@ class Pyttsx3AzureWrapper:
 
 
 class AzureWrapper:
+    """
+    A wrapper class for Azure TTS.
+    """
     def __init__(self):
         self.synthesizer = self.setup_synthesizer()
 
-    def speak_text_async(self, text: str):
+    def speak_text_async(self, text: str) -> None:
+        """
+        Mimics Azure's speak_text_async method.
+
+        :param text: The text to be spoken.
+        """
         self.synthesizer.speak_text_async(text)
 
-    def read_azure_sdk_key(self):
+    def read_azure_sdk_key(self) -> str:
+        """
+        Reads the Azure SDK key from the file.
+
+        :return: The Azure SDK key.
+        """
         try:
-            with open(AZURE_SDK_KEY_FILE, 'r') as f:
+            with open(AZURE_SDK_KEY_FILE, 'r', encoding='utf-8') as f:
                 return f.read().strip()
         except FileNotFoundError:
             return None
 
-    def setup_synthesizer(self):
+    def setup_synthesizer(self) -> speechsdk.SpeechSynthesizer:
+        """
+        Sets up the Azure TTS synthesizer.
+
+        :return: The Azure TTS synthesizer.
+        """
         subscription_key = self.read_azure_sdk_key()
         speech_config = speechsdk.SpeechConfig(
             subscription=subscription_key, region=AZURE_SDK_REGION)
@@ -121,13 +190,14 @@ class AzureWrapper:
 
             # Replace this with your actual display method
             print("Tester voice is:", random_voice.name)
-            # Replace this with your actual input method
-            user_input = input(
-                "Press 'c' to continue or any other key to choose again: ")
+
+            user_input = wait_for_key()
 
             if user_input == 'c':
                 break
             else:
                 del synthesizer
+                synthesizer = speechsdk.SpeechSynthesizer(
+                    speech_config=speech_config, audio_config=audio_config)
 
         return synthesizer
