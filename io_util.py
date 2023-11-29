@@ -6,34 +6,70 @@ import threading
 import curses
 import time
 
+# Initialize the lock for thread-safe screen updates
 print_lock = threading.Lock()
+
+# Initialize curses screen
 screen = curses.initscr()
 curses.noecho()
 curses.cbreak()
 screen.keypad(True)
-last_input_time = time.time()
 
-def cleanup_lock():
-    """
-    Clean-up function for the print lock.
-    """
-    global print_lock
-    print_lock = None
+# Track the last input time
+last_input_time = time.time()
 
 
 def cleanup_curses():
     """
     Clean-up function for curses.
     """
-    screen.keypad(False)
-    curses.nocbreak()
-    curses.echo()
-    curses.endwin()
+    with print_lock:
+        screen.keypad(False)
+        curses.nocbreak()
+        curses.echo()
+        curses.endwin()
 
 
-# Register clean-up functions to be executed when program exits
-atexit.register(cleanup_lock)
+# Register clean-up function to be executed when program exits
 atexit.register(cleanup_curses)
+
+
+def safe_screen_update(func):
+    """
+    Decorator to ensure thread-safe screen updates.
+    """
+    def wrapper(*args, **kwargs):
+        with print_lock:
+            return func(*args, **kwargs)
+    return wrapper
+
+
+@safe_screen_update
+def clear_screen():
+    """
+    A function to clear the screen.
+    """
+    screen.clear()
+
+
+@safe_screen_update
+def refresh_screen():
+    """
+    A function to refresh the screen.
+    """
+    screen.refresh()
+
+
+@safe_screen_update
+def add_str(y, x, text):
+    """
+    A function to add text to the screen.
+
+    :param y: The y-coordinate of the text.
+    :param x: The x-coordinate of the text.
+    :param text: The text to be added.
+    """
+    screen.addstr(y, x, text)
 
 
 def wait_for_key(stop_flag=None, timeout=50) -> str:
@@ -48,21 +84,27 @@ def wait_for_key(stop_flag=None, timeout=50) -> str:
     while True:
         if stop_flag is not None and stop_flag.is_set():
             return -1  # Return -1 to indicate that the function was stopped
+
         char = screen.getch()
-        if char == -1:
-            # No input detected
-            current_time = time.time()
-            if current_time - last_input_time > 60:
-                time.sleep(10)
-                last_input_time = current_time
-            if current_time - last_input_time > 30:  # Wait for 5 seconds of no input
-                time.sleep(5)  # Add a delay of 1 second
-                last_input_time = current_time
-            else:
-                time.sleep(1)  # Add a delay of 0.1 seconds
-        else:
-            last_input_time = time.time()
+        current_time = time.time()
+
+        if char != -1:
+            last_input_time = current_time
             return chr(char)
+
+        # Check for inactivity and sleep accordingly
+        time_since_last_input = current_time - last_input_time
+
+        if time_since_last_input > 60:
+            sleep_duration = 10
+        elif time_since_last_input > 30:
+            sleep_duration = 5
+        else:
+            sleep_duration = 1
+
+        time.sleep(sleep_duration)
+        last_input_time = current_time
+
 
 
 

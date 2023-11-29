@@ -73,7 +73,7 @@ class SpeakerFactory:
         :return: True if the user is using Ubuntu 22.04, False otherwise.
         """
         try:
-            with open("/etc/os-release") as f:
+            with open("/etc/os-release", 'r', encoding='utf-8') as f:
                 content = f.readlines()
             for line in content:
                 if line.startswith("NAME="):
@@ -189,7 +189,12 @@ class AzureWrapper:
             synthesizer.speak_text_async("Hello, world!")
 
             # Replace this with your actual display method
-            print("Tester voice is:", random_voice.name)
+            screen.clear()
+            screen.addstr(0, 0, "Hello, world!")
+            screen.addstr(1, 0, f"Voice: {random_voice.name}")
+            screen.addstr(2, 0, "Press 'C' to continue, or any other key to try again.")
+            screen.refresh()
+
 
             user_input = wait_for_key()
 

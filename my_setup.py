@@ -77,6 +77,7 @@ class SetupManager:
         self.synthesizer.speak_text_async("Welcome back!")  # async = non-blocking
         for instruction in instructions:
             # Print the instruction to the io_util.screen
+            io_util.screen.clear()
             io_util.screen.addstr(instruction + "\n")
             io_util.screen.refresh()  # Update the io_util.screen to show the instruction
             key = io_util.wait_for_key()  # Wait for the user to press a key
