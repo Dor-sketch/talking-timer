@@ -132,6 +132,22 @@ class SetupManager:
         :return: A tuple containing the number of chapters and whether or not
             there is an extra essay.
         """
+
+        # Options for default number of chapters 8 with extra essay
+        chapters = 8
+        extra_essay = True
+
+        # Ask the user if they want to change the default options
+        self.synthesizer.speak_text_async("Do you want to change the default options?")
+        io_util.screen.addstr('\nPress "Y" to change or any other key to continue: ')
+        char = io_util.wait_for_key()
+        io_util.screen.addstr(char)
+        if char != "y":
+            self.synthesizer.speak_text_async("Default options selected!")
+            io_util.screen.addstr("\nDefault options selected!")
+            io_util.wait_for_key()
+            return chapters, extra_essay
+
         chapters = self.get_chapters_from_input()
         extra_essay = self.ask_for_extra_essay()
         if extra_essay:

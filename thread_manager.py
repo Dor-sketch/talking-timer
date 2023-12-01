@@ -44,9 +44,9 @@ class ThreadManager:
         Prepares and returns the arguments needed for the timer thread.
         """
         return (
-            self.stop_flag,
-            self.extra_essay,
-            self.clock_ticking,
+            self.timer_expired_event,
+            self.extra_essay_event,
+            self.pause_not_pressed_event,
             self.remaining_time,
             self.warning_time,
             self.screen,
@@ -59,11 +59,11 @@ class ThreadManager:
         Returns the arguments needed for the output thread.
         """
         return (
-            self.stop_flag,
+            self.timer_expired_event,
             self.exit_flag,
             self.output_event,
             self.synthesizer,
-            self.clock_ticking,
+            self.pause_not_pressed_event,
             self.chapters,
         )
 
@@ -72,18 +72,20 @@ class ThreadManager:
         Returns the arguments needed for the input thread.
         """
         return (
-            (self.stop_flag, self.exit_flag, self.output_event, self.clock_ticking),
+            (self.timer_expired_event, self.exit_flag, self.output_event,\
+              self.pause_not_pressed_event),
         )
 
     def initialize_events(self):
         """
         Initializes threading events.
         """
-        self.stop_flag = threading.Event()
-        self.clock_ticking = threading.Event()
+        self.timer_expired_event = threading.Event()
+        self.pause_not_pressed_event = threading.Event()
         self.output_event = threading.Event()
         self.exit_flag = threading.Event()
-        self.extra_essay = threading.Event()
+        self.extra_essay_event = threading.Event()
+
 
     def initialize_threads(self, chapter_num: int):
         """
@@ -135,16 +137,16 @@ class ThreadManager:
         """
         Initializes or resets flags and timers for a new chapter.
         """
-        self.stop_flag.clear()
-        self.clock_ticking.set()
-        if chapter_num > 0 and self.extra_essay_flag:
-            self.extra_essay.set()
+        self.timer_expired_event.clear()
+        self.pause_not_pressed_event.set()
+        if chapter_num is 0 and self.extra_essay_flag:
+            self.extra_essay_event.set()
 
     def cleanup(self):
         """
         Performs necessary cleanup, especially in case of an error.
         """
-        self.stop_flag.set()
+        self.timer_expired_event.set()
         if self.timer_thread.is_alive():
             self.timer_thread.join()
         if self.output_thread.is_alive():

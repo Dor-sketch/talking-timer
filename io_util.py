@@ -72,17 +72,17 @@ def add_str(y, x, text):
     screen.addstr(y, x, text)
 
 
-def wait_for_key(stop_flag=None, timeout=50) -> str:
+def wait_for_key(timer_expired_event=None, timeout=50) -> str:
     """
     A function to wait for user input.
 
-    :param stop_flag: A threading.Event object to stop the function.
+    :param timer_expired_event: A threading.Event object to stop the function.
     :param timeout: The timeout value for the screen.getch() function.
     """
     global last_input_time
     screen.timeout(timeout)  # Set the timeout value
     while True:
-        if stop_flag is not None and stop_flag.is_set():
+        if timer_expired_event is not None and timer_expired_event.is_set():
             return -1  # Return -1 to indicate that the function was stopped
 
         char = screen.getch()
@@ -115,7 +115,8 @@ def output_util(current_chapter, tuple_args) -> None:
     :param current_chapter: The current chapter number.
     :param tuple_args: A tuple of arguments.
     """
-    stop_flag, exit_flag, output_event, synthesizer, clock_ticking, chapters = tuple_args
+    timer_expired_event, exit_flag, output_event, synthesizer, \
+        pause_not_pressed_event, chapters = tuple_args
     with print_lock:
         screen.clear()  # Clear the screen
 
@@ -145,13 +146,13 @@ def output_util(current_chapter, tuple_args) -> None:
             curses.echo()
             curses.endwin()
             break
-        elif stop_flag.is_set():
+        elif timer_expired_event.is_set():
             synthesizer.speak_text_async("Time is up! Please turn pages!")
             break
-        elif clock_ticking.is_set() is False:
+        elif pause_not_pressed_event.is_set() is False:
             # Put other threads to sleep until the pause flag is cleared
             synthesizer.speak_text_async("Paused!")
-            clock_ticking.wait()
+            pause_not_pressed_event.wait()
             synthesizer.speak_text_async("Resumed!")
 
 
@@ -163,19 +164,19 @@ def input_util(tuple_args) -> None:
     :param tuple_args: A tuple of arguments.
     """
 
-    stop_flag, exit_flag, output_event, clock_ticking = tuple_args
-    while True and not stop_flag.is_set():
-        key = wait_for_key(stop_flag=stop_flag)
+    timer_expired_event, exit_flag, output_event, pause_not_pressed_event = tuple_args
+    while True and not timer_expired_event.is_set():
+        key = wait_for_key(timer_expired_event=timer_expired_event)
         output_event.set()
         if key == ("n"):  # Check if the user has pressed the "n" key
-            stop_flag.set()  # Set the stop flag to stop the chapter timer thread
+            timer_expired_event.set()  # Set the stop flag to stop the chapter timer thread
             break
         elif key == ("q"):  # Check if the user has pressed the "q" key to quit the program
-            stop_flag.set()  # Set the stop flag to stop the chapter timer thread
+            timer_expired_event.set()  # Set the stop flag to stop the chapter timer thread
             exit_flag.set()
             quit()
         elif key == ("p"):  # Check if the user has pressed the "p" key to pause the timer
-            clock_ticking.clear()  # Set the pause event to pause the timer
+            pause_not_pressed_event.clear()  # Set the pause event to pause the timer
             while wait_for_key() == -1:  # Wait for the user to press a key
                 pass
-            clock_ticking.set()  # Clear the pause event to resume the timer
+            pause_not_pressed_event.set()  # Clear the pause event to resume the timer

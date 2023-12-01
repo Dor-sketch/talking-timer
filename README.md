@@ -72,7 +72,7 @@ pip install gtts pyttsx3 azure-cognitiveservices-speech
 - `io_util.py`: A module that contains utility functions for handling input and output.
 - `azure_sdk_key.txt`: A file that contains your Azure SDK key (Optional).
 - `README.md`: The README file.
--
+
 ## Classes 📚
 
 ### `SpeakerFactory`
@@ -97,7 +97,7 @@ A new addition to the codebase, the `SpeakerFactory` class serves as a factory f
 
 This class handles the orchestration of multiple threads, including threads for timing (`timer_thread`), output (`output_thread`), and input (`input_thread`). It provides methods for preparing thread arguments, starting threads, and joining them back.
 
-#### Key Responsibilities
+#### `ThreadManager` Key Responsibilities
 
 - **Event Initialization**: Initializes several threading events like `stop_flag`, `clock_ticking`, `output_event`, `exit_flag`, and `extra_essay` that control the flow and behavior of the various threads.
 
@@ -107,7 +107,7 @@ This class handles the orchestration of multiple threads, including threads for 
 
 - **Resource Cleanup**: Implements the `__enter__` and `__exit__` methods to allow the object to be used with Python's `with` statement, ensuring that all threads are joined back at the end of the operation.
 
-#### Method Descriptions
+#### `ThreadManager` Method Descriptions
 
 - `__init__`: Initializes thread events and sets basic configuration like warning times, chapters, and whether an extra essay is included.
 - `initialize_events`: Initializes thread event objects for controlling thread behavior.
