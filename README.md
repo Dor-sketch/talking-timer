@@ -1,19 +1,29 @@
 # 🧠 Psycho Timer for the Psychometric Entrance Test
 
-## 📜 Description
-
 Psycho Timer is a Python program designed specifically for candidates preparing for the Psychometric Entrance Test (PET). It aids in effective time management during the test by setting individual timers for each section of the exam.
-
-![image](https://github.com/Dor-sketch/PsychoTimer/assets/138825033/b8bc8d23-0aae-4983-8932-52adaa34b6a5)
 
 ---
 
-**New:** The program has recently been updated to support text-to-speech capabilities not only with Azure but also with Google Text-to-Speech and a local text-to-speech engine, providing enhanced flexibility and accessibility. It can now run without an internet connection and without requiring an Azure SDK key. It has been tested on macOS and Ubuntu 22.04.
+## 📜 News
+
+The program has recently been updated to support text-to-speech capabilities not only with Azure but also with Google Text-to-Speech and a local text-to-speech engine, providing enhanced flexibility and accessibility. It can now run without an internet connection and without requiring an Azure SDK key. It has been tested on macOS and Ubuntu 22.04.
 
 ## ✨ Features
 
 - **🔄 Speaker Factory**: New feature that automatically selects the best available text-to-speech engine based on the user's system and internet connectivity. It has the capability to fallback to Google Text-to-Speech and a local text-to-speech engine, enabling the program to run without an internet connection or an Azure SDK key.
+
+   Use `FatimaNeural` voice!
+
+   ![image](https://github.com/Dor-sketch/PsychoTimer/assets/138825033/e5101434-1889-4e75-9452-0e3c61b84bc2)
+
+   Or use `UzmaNeural` voice - use AMY VOICE!
+
+   ![image](https://github.com/Dor-sketch/PsychoTimer/assets/138825033/8bb84d10-ee72-4818-84c3-6f18c53d92ff)
+
 - **🕐 Dynamic Section Timers**: Set up individual timers for each section of the PET based on user input.
+  
+  ![image](https://github.com/Dor-sketch/PsychoTimer/assets/138825033/9fde1ab0-ff05-45c5-bc3a-4b786544b2bb)
+  
 - **🔊 Voice Alerts**: Utilize Azure's text-to-speech capabilities to provide audible alerts, enhancing the user experience.
 - **🗣 Randomized Voice Selection**: Every time the program starts, a unique voice is randomly selected for the text-to-speech synthesizer.
 - **📝 Optional Essay Section**: Choose to include a 30-minute essay section at the start of the exam.
@@ -59,10 +69,20 @@ pip install gtts pyttsx3 azure-cognitiveservices-speech
 
 ## 🚀 Usage
 
+Program includes interactive walkthrogh:
+
+| ![image](https://github.com/Dor-sketch/PsychoTimer/assets/138825033/478132c8-13c1-42f2-9498-2ee4a9520eb7) | ![image](https://github.com/Dor-sketch/PsychoTimer/assets/138825033/3495ceab-4666-435e-9c13-9bab9645c2f7) |
+|---|---|
+| ![image](https://github.com/Dor-sketch/PsychoTimer/assets/138825033/cb1426d5-ff1e-4d66-abd2-30174aaf98ab) | ![image](https://github.com/Dor-sketch/PsychoTimer/assets/138825033/fa51c8b1-4698-4319-874d-c78680473001) |
+| ![image](https://github.com/Dor-sketch/PsychoTimer/assets/138825033/3b84f4a8-0bb5-4840-afc6-783c6e7d4145) | ![image](https://github.com/Dor-sketch/PsychoTimer/assets/138825033/18f46792-82d7-4e27-8d80-1162e0927db3) |
+| ![image](https://github.com/Dor-sketch/PsychoTimer/assets/138825033/5698a513-d67e-4626-80f5-5acbe3dd2a64) | ![image](https://github.com/Dor-sketch/PsychoTimer/assets/138825033/c5d65cd4-3267-4741-afaa-88589f063207) |
+| ![image](https://github.com/Dor-sketch/PsychoTimer/assets/138825033/0600c7c5-d8ad-491c-8edf-3a760afaaff9) | ![image](https://github.com/Dor-sketch/PsychoTimer/assets/138825033/a05a445d-2433-4c7b-bca2-3e051d8e6d93) |
+
+
 1. When prompted, enter the number of sections in the PET.
-2. Follow the on-screen instructions to start and stop the timer for each section.
-3. Press "P" to pause the timer, and "R" to resume the timer.
-4. Press "Q" to quit the program.
+3. Follow the on-screen instructions to start and stop the timer for each section.
+5. Press "P" to pause the timer, and "R" to resume the timer.
+6. Press "Q" to quit the program.
 
 ## 📁 Files
 
