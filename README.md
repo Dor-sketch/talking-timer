@@ -1,12 +1,40 @@
 # 🧠 Psycho Timer for the Psychometric Entrance Test
 
-Psycho Timer is a Python program designed specifically for candidates preparing for the Psychometric Entrance Test (PET). It aids in effective time management during the test by setting individual timers for each section of the exam.
+Psycho Timer is a Python program designed specifically for candidates preparing for the Psychometric Entrance Test (PET). It aids in effective time management during the test by setting individual timers for each section of the exam,  providing audible instructions and alerts, allow tests modifications and more - all combined with a simple user interface.
+
+**Full interactive experience in less than 25 KB's!**
+
+<div align="center" style="margin: 20px">
+   <img src="https://github.com/Dor-sketch/PsychoTimer/assets/138825033/b8bc8d23-0aae-4983-8932-52adaa34b6a5" width="400" height="400" /></img>
+</div>
+
+---
+
+### 📝 Table of Contents
+
+<!-- @import "[TOC]" {cmd="toc" depthFrom=2 depthTo=2 orderedList=false} -->
+
+<!-- code_chunk_output -->
+
+- [📜 News](#-news)
+- [✨ Features](#-features)
+- [📦 Dependencies](#-dependencies)
+- [🛠 Installation](#-installation)
+- [🚀 Usage](#-usage)
+- [📁 Files](#-files)
+- [📚 Classes - Behind the Scenes](#-classes---behind-the-scenes)
+- [🙏 Contributing](#-contributing)
+- [📄 License](#-license)
+
+<!-- /code_chunk_output -->
 
 ---
 
 ## 📜 News
 
-The program has recently been updated to support text-to-speech capabilities not only with Azure but also with Google Text-to-Speech and a local text-to-speech engine, providing enhanced flexibility and accessibility. It can now run without an internet connection and without requiring an Azure SDK key. It has been tested on macOS and Ubuntu 22.04.
+The program has recently been updated to support text-to-speech capabilities not only with `Azure` but also with `Google Text-to-Speech` and even a local text-to-speech engine, providing enhanced flexibility and accessibility. It can now run **without an internet connection** , **without requiring an Azure SDK key** and **without using a single byte for audio files**.
+
+Features has been tested on macOS and Ubuntu 22.04.
 
 ## ✨ Features
 
@@ -16,20 +44,22 @@ The program has recently been updated to support text-to-speech capabilities not
 
    ![image](https://github.com/Dor-sketch/PsychoTimer/assets/138825033/e5101434-1889-4e75-9452-0e3c61b84bc2)
 
-   Or use `UzmaNeural` voice - use AMY VOICE!
+   Or use `UzmaNeural` voice - use *ANY VOICE!*
 
    ![image](https://github.com/Dor-sketch/PsychoTimer/assets/138825033/8bb84d10-ee72-4818-84c3-6f18c53d92ff)
 
 - **🕐 Dynamic Section Timers**: Set up individual timers for each section of the PET based on user input.
-  
+
   ![image](https://github.com/Dor-sketch/PsychoTimer/assets/138825033/9fde1ab0-ff05-45c5-bc3a-4b786544b2bb)
-  
+
 - **🔊 Voice Alerts**: Utilize Azure's text-to-speech capabilities to provide audible alerts, enhancing the user experience.
 - **🗣 Randomized Voice Selection**: Every time the program starts, a unique voice is randomly selected for the text-to-speech synthesizer.
 - **📝 Optional Essay Section**: Choose to include a 30-minute essay section at the start of the exam.
 - **⏸ Pause & Resume**: Easily pause the timer with the "P" key and resume with the "R" key.
 - **❌ Quick Exit**: Press "Q" to quickly quit the program anytime.
 - **🧩 Modular Structure**: Separate modules for different functionalities (`my_timer.py`, `my_setup.py`, `io_util.py`, `SetupManager`) make it easier for developers to understand and contribute.
+
+---
 
 ## 📦 Dependencies
 
@@ -67,6 +97,8 @@ pip install gtts pyttsx3 azure-cognitiveservices-speech
    3. Paste your Azure SDK key into the `azure_sdk_key.txt` file and save it.
 4. Run the program by running `python main.py`.
 
+---
+
 ## 🚀 Usage
 
 Program includes interactive walkthrogh:
@@ -77,7 +109,6 @@ Program includes interactive walkthrogh:
 | ![image](https://github.com/Dor-sketch/PsychoTimer/assets/138825033/3b84f4a8-0bb5-4840-afc6-783c6e7d4145) | ![image](https://github.com/Dor-sketch/PsychoTimer/assets/138825033/18f46792-82d7-4e27-8d80-1162e0927db3) |
 | ![image](https://github.com/Dor-sketch/PsychoTimer/assets/138825033/5698a513-d67e-4626-80f5-5acbe3dd2a64) | ![image](https://github.com/Dor-sketch/PsychoTimer/assets/138825033/c5d65cd4-3267-4741-afaa-88589f063207) |
 | ![image](https://github.com/Dor-sketch/PsychoTimer/assets/138825033/0600c7c5-d8ad-491c-8edf-3a760afaaff9) | ![image](https://github.com/Dor-sketch/PsychoTimer/assets/138825033/a05a445d-2433-4c7b-bca2-3e051d8e6d93) |
-
 
 1. When prompted, enter the number of sections in the PET.
 3. Follow the on-screen instructions to start and stop the timer for each section.
@@ -93,7 +124,7 @@ Program includes interactive walkthrogh:
 - `azure_sdk_key.txt`: A file that contains your Azure SDK key (Optional).
 - `README.md`: The README file.
 
-## Classes 📚
+## 📚 Classes - Behind the Scenes
 
 ### `SpeakerFactory`
 
