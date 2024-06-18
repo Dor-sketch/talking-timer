@@ -9,27 +9,26 @@ from my_setup import SetupManager
 from thread_manager import ThreadManager
 from io_util import screen
 
-def load_config():
-    """
-    Loads global configuration settings from a file.
-    """
-    global five_min, twenty_min
-    config = configparser.ConfigParser()
-    config.read('config.ini')
-    five_min = config.getint('Timer', 'warning_time', fallback=300)
-    twenty_min = config.getint('Timer', 'chapter_time', fallback=1200)
+
+config = configparser.ConfigParser()
+config.read('config.ini')
+five_min = config.getint('Timer', 'warning_time', fallback=300)
+twenty_min = config.getint('Timer', 'chapter_time', fallback=1200)
 
 
 if __name__ == "__main__":
-    load_config()
+    print("Welcome to the Audiobook Synthesizer!")
     try:
         with SetupManager() as setup_manager:
             synthesizer, chapters, extra_essay = setup_manager.get_setup()
+            print("Setup complete. Press any key to begin.")
         with ThreadManager(synthesizer, chapters, extra_essay) as thread_manager:
             for chapter in range(thread_manager.chapters):
                 thread_manager.run_threads(chapter)
+                print(f"Chapter {chapter + 1} complete.")
             thread_manager.exit_flag.set()
     except KeyboardInterrupt:
+        print("Interrupted! Exiting...")
         screen.clear()
         screen.addstr(0, 0, "Interrupted! Exiting...")
         screen.refresh()

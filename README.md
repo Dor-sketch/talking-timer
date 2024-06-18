@@ -1,12 +1,11 @@
-# 🧠 Psycho Timer for the Psychometric Entrance Test
+<div align="center" style="margin: 20px">
+   <img src="banner.gif"></img>
+   <br>
+   <h1 style="font-size: 2.5em; margin: 0;">Psycho Timer: A Lightweight Text-to-Speech Timer Application</h1>
+   <h3 style="font-size: 1.5em; margin: 0;">Experience full interactivity in less than 25 KB!</h3>
+</div>
 
 Psycho Timer is a Python program designed specifically for candidates preparing for the Psychometric Entrance Test (PET). It aids in effective time management during the test by setting individual timers for each section of the exam,  providing audible instructions and alerts, allow tests modifications and more - all combined with a simple user interface.
-
-**Full interactive experience in less than 25 KB's!**
-
-<div align="center" style="margin: 20px">
-   <img src="https://github.com/Dor-sketch/PsychoTimer/assets/138825033/b8bc8d23-0aae-4983-8932-52adaa34b6a5" width="400" height="400" /></img>
-</div>
 
 ---
 
@@ -80,6 +79,7 @@ This project uses a mix of Python Standard Library modules and Third-Party Libra
 - `gtts` (Google Text-to-Speech)
 - `pyttsx3`
 - `azure.cognitiveservices.speech`
+- `mpg321` (for playing audio files with google text-to-speech)
 
 You can install the required third-party libraries using pip:
 

@@ -40,3 +40,6 @@ azure_sdk_key.txt
 *.exe
 *.out
 *.app
+
+log.txt
+

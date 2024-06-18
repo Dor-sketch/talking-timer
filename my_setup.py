@@ -37,8 +37,26 @@ class SetupManager:
     A class to manage the setup of the program.
     """
     def __init__(self):
-        self.synthesizer = SpeakerFactory.create_speaker()
-        self.chapters, self.extra_essay = self.get_total_chapters()
+        print("Setting up the program...")
+        try:
+            self.synthesizer = SpeakerFactory.create_speaker()
+            print("Synthesizer created!")
+            with open("log.txt", "a") as f:
+                f.write("Synthesizer created!\n")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            raise SystemExit
+        try:
+            print("Getting the number of chapters...")
+            self.chapters, self.extra_essay = self.get_total_chapters()
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            raise SystemExit
+
+        print("Setup complete!")
+        # log to log file
+        with open("log.txt", "a") as f:
+            f.write("Setup complete!\n")
 
     def __enter__(self):
         return self
@@ -136,29 +154,32 @@ class SetupManager:
         # Options for default number of chapters 8 with extra essay
         chapters = 8
         extra_essay = True
+        try:
+            # Ask the user if they want to change the default options
+            self.synthesizer.speak_text_async("Do you want to change the default options?")
+            io_util.screen.addstr('\nPress "Y" to change or any other key to continue: ')
+            char = io_util.wait_for_key()
+            io_util.screen.addstr(char)
+            if char != "y":
+                self.synthesizer.speak_text_async("Default options selected!")
+                io_util.screen.addstr("\nDefault options selected!")
+                io_util.wait_for_key()
+                return chapters, extra_essay
 
-        # Ask the user if they want to change the default options
-        self.synthesizer.speak_text_async("Do you want to change the default options?")
-        io_util.screen.addstr('\nPress "Y" to change or any other key to continue: ')
-        char = io_util.wait_for_key()
-        io_util.screen.addstr(char)
-        if char != "y":
-            self.synthesizer.speak_text_async("Default options selected!")
-            io_util.screen.addstr("\nDefault options selected!")
+            chapters = self.get_chapters_from_input()
+            extra_essay = self.ask_for_extra_essay()
+            if extra_essay:
+                chapters += 1
+
+            self.synthesizer.speak_text_async(
+                "Oh Yeah! press any key when you are ready... and good luck!"
+            )
+            io_util.screen.addstr(f"\nNumber of chapters: {number_dict[chapters]}")
+            if extra_essay:
+                io_util.screen.addstr(" + exta essay")
             io_util.wait_for_key()
-            return chapters, extra_essay
+            self.synthesizer.speak_text_async("Test Started!")
+        except Exception as e:
+            print(f"An error occurred: {e}")
 
-        chapters = self.get_chapters_from_input()
-        extra_essay = self.ask_for_extra_essay()
-        if extra_essay:
-            chapters += 1
-
-        self.synthesizer.speak_text_async(
-            "Oh Yeah! press any key when you are ready... and good luck!"
-        )
-        io_util.screen.addstr(f"\nNumber of chapters: {number_dict[chapters]}")
-        if extra_essay:
-            io_util.screen.addstr(" + exta essay")
-        io_util.wait_for_key()
-        self.synthesizer.speak_text_async("Test Started!")
         return chapters, extra_essay

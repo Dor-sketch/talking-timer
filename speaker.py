@@ -41,14 +41,20 @@ class SpeakerFactory:
         :return: A speaker.
         """
         speaker = None
-
-        if SpeakerFactory.check_internet_connection():
-            if SpeakerFactory.is_ubuntu_2204() or not SpeakerFactory.read_azure_sdk_key():
-                speaker = GttsAsyncWrapper()
+        try:
+            if SpeakerFactory.check_internet_connection():
+                print("Internet connection detected.")
+                if SpeakerFactory.is_ubuntu_2204() or not SpeakerFactory.read_azure_sdk_key():
+                    with open("log.txt", "a") as f:
+                        f.write("Creating gTTS speaker...\n")
+                    speaker = GttsAsyncWrapper()
+                else:
+                    speaker = AzureWrapper()
             else:
-                speaker = AzureWrapper()
-        else:
-            speaker = Pyttsx3AzureWrapper()
+                speaker = Pyttsx3AzureWrapper()
+
+        except Exception as e:
+            raise e
 
         return speaker
 
@@ -105,21 +111,38 @@ class GttsAsyncWrapper:
     A wrapper class for gTTS that mimics Azure TTS's interface.
     """
     def __init__(self, lang='en'):
-        self.lang = lang
-        self.speak_text_async("Hello, world! I am google text to speech!")
-
+        with open("log.txt", "a") as f:
+            f.write("Creating gTTS speaker... in init\n")
+        try:
+            self.lang = lang
+            self.speak_text_async("Hello, world! I am google text to speech!")
+        except Exception as e:
+            raise e
+        with open("log.txt", "a") as f:
+            f.write("gTTS speaker created!\n")
     def speak_text_async(self, text):
         """
         Mimics Azure's speak_text_async method.
 
         :param text: The text to be spoken.
         """
-        tts = gTTS(text=text, lang=self.lang)
-        tts.save("temp.mp3")
-        subprocess.Popen(["mpg321", "temp.mp3"],
-                         stdout=subprocess.DEVNULL,
-                         stderr=subprocess.DEVNULL,
-                         shell=False)
+        try:
+            tts = gTTS(text=text, lang=self.lang)
+            tts.save("temp.mp3")
+            with open("log.txt", "a") as f:
+                f.write(f"Saving: {text}\n")
+            subprocess.Popen(["mpg321", "temp.mp3"],
+                             stdout=subprocess.DEVNULL,
+                             stderr=subprocess.DEVNULL,
+                             shell=False)
+
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            with open("log.txt", "a") as f:
+                f.write(f"An error occurred: {e}\n")
+            raise e
+        with open("log.txt", "a") as f:
+            f.write(f"Speaking: {text}\n")
 
 
 class Pyttsx3AzureWrapper:
