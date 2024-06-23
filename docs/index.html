@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-T7HFKFX0PR"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-T7HFKFX0PR');
-</script>
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T7HFKFX0PR"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-T7HFKFX0PR');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Psycho Timer: A Lightweight Text-to-Speech Timer Application by Dor</title>
-     <meta name="author" content="Dor Pascal">
+    <meta name="author" content="Dor Pascal">
     <meta property="og:title" content="Psycho Timer" />
-    <meta property="og:description"
-        content="A Lightweight Text-to-Speech Timer Application by Dor." />
-    <meta property="og:image" content="https://dorpascal.com/PsychoTimer/online-demo.gif" />
+    <meta property="og:description" content="A Lightweight Text-to-Speech Timer Application by Dor." />
+    <meta property="og:image" content="https://raw.githubusercontent.com/Dor-sketch/PsychoTimer/main/online-demo.gif" />
     <meta property="og:url" content="https://dorpascal.com/PsychoTimer" />
     <meta property="og:type" content="website" />
     <link rel="icon" href="./favicon.ico">
@@ -53,7 +53,7 @@
             max-width: 600px;
             padding: 40px;
             background: var(--container-light);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             border-radius: 20px;
             transition: background 0.3s, box-shadow 0.3s;
         }
@@ -63,7 +63,7 @@
             font-weight: bold;
             margin: 40px 0;
             color: var(--primary-color);
-            text-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         button {
@@ -96,7 +96,7 @@
             border-radius: 50%;
             background-color: var(--neutral-color);
             transition: background-color 0.3s;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         .active {
@@ -115,9 +115,11 @@
             0% {
                 box-shadow: 0 0 0 0 rgba(0, 122, 255, 0.7);
             }
+
             70% {
                 box-shadow: 0 0 0 30px rgba(0, 122, 255, 0);
             }
+
             100% {
                 box-shadow: 0 0 0 0 rgba(0, 122, 255, 0);
             }
@@ -132,7 +134,7 @@
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0,0,0,0.5);
+            background-color: rgba(0, 0, 0, 0.5);
         }
 
         .modal-content {
@@ -143,7 +145,7 @@
             width: 80%;
             max-width: 500px;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             text-align: left;
             transition: background 0.3s;
         }
@@ -162,7 +164,8 @@
             cursor: pointer;
         }
 
-        .settings, .custom-time-input {
+        .settings,
+        .custom-time-input {
             margin-bottom: 20px;
         }
 
@@ -172,7 +175,8 @@
             font-size: 16px;
         }
 
-        input[type="number"], input[type="range"] {
+        input[type="number"],
+        input[type="range"] {
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
@@ -288,74 +292,76 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
-        input:checked + .slider {
+        input:checked+.slider {
             background-color: var(--primary-color);
         }
 
-        input:checked + .slider:before {
+        input:checked+.slider:before {
             transform: translateX(26px);
         }
+
         /* Add this in the style section */
-.toggle-container {
-    margin: 20px 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+        .toggle-container {
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-.toggle-switch {
-    position: relative;
-    width: 60px;
-    height: 34px;
-}
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 34px;
+        }
 
-.toggle-switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
 
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    transition: .4s;
-    border-radius: 34px;
-}
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
 
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    transition: .4s;
-    border-radius: 50%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
 
-input:checked + .slider {
-    background-color: var(--primary-color);
-}
+        input:checked+.slider {
+            background-color: var(--primary-color);
+        }
 
-input:checked + .slider:before {
-    transform: translateX(26px);
-}
+        input:checked+.slider:before {
+            transform: translateX(26px);
+        }
 
-.moon-icon, .sun-icon {
-    margin-left: 10px;
-    font-size: 24px;
-    color: var(--text-light);
-}
-
+        .moon-icon,
+        .sun-icon {
+            margin-left: 10px;
+            font-size: 24px;
+            color: var(--text-light);
+        }
     </style>
 </head>
+
 <body>
     <div id="container">
         <!-- <img src="banner.gif" alt="Banner"> -->
@@ -368,14 +374,14 @@ input:checked + .slider:before {
         <button onclick="quitTimer()">Quit</button>
         <button onclick="nextChapter()">Next Chapter</button>
         <button onclick="openSettings()">Settings</button>
-<!-- Replace the toggle container in the body section -->
-<div class="toggle-container">
-    <label class="toggle-switch">
-        <input type="checkbox" id="themeToggle" onchange="toggleTheme()">
-        <span class="slider"></span>
-    </label>
-    <span id="themeIcon" class="moon-icon">🌙</span>
-</div>
+        <!-- Replace the toggle container in the body section -->
+        <div class="toggle-container">
+            <label class="toggle-switch">
+                <input type="checkbox" id="themeToggle" onchange="toggleTheme()">
+                <span class="slider"></span>
+            </label>
+            <span id="themeIcon" class="moon-icon">🌙</span>
+        </div>
 
     </div>
 
@@ -386,7 +392,8 @@ input:checked + .slider:before {
             <span class="close" onclick="closeSettings()">&times;</span>
             <div class="settings">
                 <label for="chapters">Number of Chapters:</label>
-                <input type="number" id="chapters" name="chapters" min="1" max="20" value="8" onchange="updateChapterInputs(this.value)">
+                <input type="number" id="chapters" name="chapters" min="1" max="20" value="8"
+                    onchange="updateChapterInputs(this.value)">
             </div>
             <div id="customTimesContainer"></div>
             <button onclick="saveSettings()">Save</button>
@@ -418,11 +425,11 @@ input:checked + .slider:before {
                 input.name = `chapterTime${i}`;
                 input.min = '1';
                 input.max = '60';
-                input.value = chapterTimes[i-1] / 60; // Default value, adjust as needed
+                input.value = chapterTimes[i - 1] / 60; // Default value, adjust as needed
                 const inputValue = document.createElement('span');
                 inputValue.textContent = `${input.value} min`;
 
-                input.oninput = function() {
+                input.oninput = function () {
                     inputValue.textContent = `${this.value} min`;
                 };
 
@@ -574,7 +581,7 @@ input:checked + .slider:before {
             return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
         }
 
-        document.addEventListener('keydown', function(event) {
+        document.addEventListener('keydown', function (event) {
             if (event.key === 'p' || event.key === 'P') {
                 toggleStartPause();
             } else if (event.key === 'r' || event.key === 'R') {
@@ -594,47 +601,50 @@ input:checked + .slider:before {
             }
         }
         // Add this to the script section
-function toggleTheme() {
-    isDarkMode = !isDarkMode;
-    const themeIcon = document.getElementById('themeIcon');
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            const themeIcon = document.getElementById('themeIcon');
 
-    if (isDarkMode) {
-        document.body.style.background = "var(--background-dark)";
-        document.body.style.color = "var(--text-dark)";
-        document.getElementById('container').style.background = "var(--container-dark)";
-        document.querySelector('.modal-content').style.background = "var(--container-dark)";
-        document.querySelector('.footer').style.background = "var(--container-dark)";
-        themeIcon.textContent = '☀️'; // Change to sun icon
-    } else {
-        document.body.style.background = "var(--background-light)";
-        document.body.style.color = "var(--text-light)";
-        document.getElementById('container').style.background = "var(--container-light)";
-        document.querySelector('.modal-content').style.background = "var(--container-light)";
-        document.querySelector('.footer').style.background = "var(--container-light)";
-        themeIcon.textContent = '🌙'; // Change to moon icon
-    }
-}
+            if (isDarkMode) {
+                document.body.style.background = "var(--background-dark)";
+                document.body.style.color = "var(--text-dark)";
+                document.getElementById('container').style.background = "var(--container-dark)";
+                document.querySelector('.modal-content').style.background = "var(--container-dark)";
+                document.querySelector('.footer').style.background = "var(--container-dark)";
+                themeIcon.textContent = '☀️'; // Change to sun icon
+            } else {
+                document.body.style.background = "var(--background-light)";
+                document.body.style.color = "var(--text-light)";
+                document.getElementById('container').style.background = "var(--container-light)";
+                document.querySelector('.modal-content').style.background = "var(--container-light)";
+                document.querySelector('.footer').style.background = "var(--container-light)";
+                themeIcon.textContent = '🌙'; // Change to moon icon
+            }
+        }
 
-// Initialize the theme based on the current mode
-document.addEventListener('DOMContentLoaded', (event) => {
-    updateProgress();
-    // Check if speech synthesis is available
-    if ('speechSynthesis' in window) {
-        speak("Welcome! Please set the number of chapters and start the timer.");
-    } else {
-        console.log("Speech synthesis not available.");
-    }
-    // Visual feedback for readiness (example)
-    document.getElementById('start-pause-btn').classList.add('ready');
+        // Initialize the theme based on the current mode
+        document.addEventListener('DOMContentLoaded', (event) => {
+            updateProgress();
+            // Check if speech synthesis is available
+            if ('speechSynthesis' in window) {
+                speak("Welcome! Please set the number of chapters and start the timer.");
+            } else {
+                console.log("Speech synthesis not available.");
+            }
+            // Visual feedback for readiness (example)
+            document.getElementById('start-pause-btn').classList.add('ready');
 
-    // Initialize theme icon based on default mode
-    document.getElementById('themeIcon').textContent = isDarkMode ? '☀️' : '🌙';
-});
+            // Initialize theme icon based on default mode
+            document.getElementById('themeIcon').textContent = isDarkMode ? '☀️' : '🌙';
+        });
 
     </script>
     <footer class="footer">
-        <p>Designed By Dor © <script>document.write(new Date().getFullYear());</script></p>
+        <p>Designed By Dor ©
+            <script>document.write(new Date().getFullYear());</script>
+        </p>
         <a href="https://dorpascal.com">dorpascal.com</a>
     </footer>
 </body>
+
 </html>
