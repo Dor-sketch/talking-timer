@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T7HFKFX0PR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-T7HFKFX0PR');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psycho Timer: A Lightweight Text-to-Speech Timer Application by Dor</title>
+     <meta name="author" content="Dor Pascal">
+    <meta property="og:title" content="Psycho Timer" />
+    <meta property="og:description"
+        content="A Lightweight Text-to-Speech Timer Application by Dor." />
+    <meta property="og:image" content="https://dorpascal.com/PsychoTimer/online-demo.gif" />
+    <meta property="og:url" content="https://dorpascal.com/PsychoTimer" />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="./favicon.ico">
+    <style>
+        :root {
+            --primary-color: #007AFF;
+            --secondary-color: #005BB5;
+            --accent-color: #FFD700;
+            --completed-color: #4CAF50;
+            --neutral-color: #B0BEC5;
+            --background-light: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --background-dark: linear-gradient(135deg, #1f1f1f 0%, #434343 100%);
+            --container-light: #fff;
+            --container-dark: #333;
+            --text-light: #333;
+            --text-dark: #ddd;
+        }
+
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: var(--background-light);
+            color: var(--text-light);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            text-align: center;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        #container {
+            max-width: 600px;
+            padding: 40px;
+            background: var(--container-light);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+
+        #timer {
+            font-size: 100px;
+            font-weight: bold;
+            margin: 40px 0;
+            color: var(--primary-color);
+            text-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        button {
+            font-size: 18px;
+            padding: 15px 30px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: var(--secondary-color);
+            transform: scale(1.05);
+        }
+
+        #progress {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .chapter {
+            width: 25px;
+            height: 25px;
+            margin: 0 5px;
+            border-radius: 50%;
+            background-color: var(--neutral-color);
+            transition: background-color 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .active {
+            background-color: var(--accent-color);
+        }
+
+        .completed {
+            background-color: var(--completed-color);
+        }
+
+        button.ready {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 122, 255, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 30px rgba(0, 122, 255, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 122, 255, 0);
+            }
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background: var(--container-light);
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: left;
+            transition: background 0.3s;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .settings, .custom-time-input {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        input[type="number"], input[type="range"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            height: 10px;
+            background: #ddd;
+            outline: none;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        input[type="range"]:hover {
+            opacity: 1;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color);
+            cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: background 0.3s;
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color);
+            cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: background 0.3s;
+        }
+
+        #customTimesContainer {
+            margin-top: 20px;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            background-color: var(--container-light);
+            padding: 10px;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: small;
+            color: #999;
+        }
+
+        .footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .toggle-container {
+            margin: 20px 0;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 34px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        /* Add this in the style section */
+.toggle-container {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toggle-switch {
+    position: relative;
+    width: 60px;
+    height: 34px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+input:checked + .slider {
+    background-color: var(--primary-color);
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.moon-icon, .sun-icon {
+    margin-left: 10px;
+    font-size: 24px;
+    color: var(--text-light);
+}
+
+    </style>
+</head>
+<body>
+    <div id="container">
+        <!-- <img src="banner.gif" alt="Banner"> -->
+        <h1>PsychoTimer 2.0 Online</h1>
+        <h3>Text-to-Speech. So light. So fast. So easy.</h3>
+        <div id="timer">20:00</div>
+        <div id="progress"></div>
+        <button id="start-pause-btn" onclick="toggleStartPause()">Start</button>
+        <button onclick="resetTimer()">Reset</button>
+        <button onclick="quitTimer()">Quit</button>
+        <button onclick="nextChapter()">Next Chapter</button>
+        <button onclick="openSettings()">Settings</button>
+<!-- Replace the toggle container in the body section -->
+<div class="toggle-container">
+    <label class="toggle-switch">
+        <input type="checkbox" id="themeToggle" onchange="toggleTheme()">
+        <span class="slider"></span>
+    </label>
+    <span id="themeIcon" class="moon-icon">🌙</span>
+</div>
+
+    </div>
+
+    <!-- The Modal -->
+    <div id="settingsModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close" onclick="closeSettings()">&times;</span>
+            <div class="settings">
+                <label for="chapters">Number of Chapters:</label>
+                <input type="number" id="chapters" name="chapters" min="1" max="20" value="8" onchange="updateChapterInputs(this.value)">
+            </div>
+            <div id="customTimesContainer"></div>
+            <button onclick="saveSettings()">Save</button>
+        </div>
+    </div>
+
+    <script>
+        let timer;
+        let timeLeft = 1200; // 20 minutes for each chapter
+        let isPaused = true;
+        let isFirstStart = true;
+        let chapters = 8; // Default number of chapters
+        let currentChapter = 1;
+        let chapterTimes = Array(chapters).fill(1200); // Default times (20 minutes)
+        let isDarkMode = false;
+
+        function updateChapterInputs(chapterCount) {
+            const container = document.getElementById('customTimesContainer');
+            container.innerHTML = ''; // Clear previous inputs
+            chapterTimes = Array(parseInt(chapterCount)).fill(1200); // Reset chapter times array
+
+            for (let i = 1; i <= chapterCount; i++) {
+                const div = document.createElement('div');
+                div.className = 'custom-time-input';
+                const label = document.createElement('label');
+                label.textContent = `Time for Chapter ${i} (minutes):`;
+                const input = document.createElement('input');
+                input.type = 'range';
+                input.name = `chapterTime${i}`;
+                input.min = '1';
+                input.max = '60';
+                input.value = chapterTimes[i-1] / 60; // Default value, adjust as needed
+                const inputValue = document.createElement('span');
+                inputValue.textContent = `${input.value} min`;
+
+                input.oninput = function() {
+                    inputValue.textContent = `${this.value} min`;
+                };
+
+                div.appendChild(label);
+                div.appendChild(input);
+                div.appendChild(inputValue);
+                container.appendChild(div);
+            }
+        }
+
+        function saveSettings() {
+            const inputs = document.querySelectorAll('.custom-time-input input');
+            inputs.forEach((input, index) => {
+                chapterTimes[index] = parseInt(input.value) * 60; // Save times in seconds
+            });
+            closeSettings();
+            resetTimer(); // Reset the timer with new settings
+        }
+
+        function openSettings() {
+            document.getElementById('settingsModal').style.display = 'block';
+        }
+
+        function closeSettings() {
+            document.getElementById('settingsModal').style.display = 'none';
+        }
+
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            if (isDarkMode) {
+                document.body.style.background = "var(--background-dark)";
+                document.body.style.color = "var(--text-dark)";
+                document.getElementById('container').style.background = "var(--container-dark)";
+                document.querySelector('.modal-content').style.background = "var(--container-dark)";
+                document.querySelector('.footer').style.background = "var(--container-dark)";
+            } else {
+                document.body.style.background = "var(--background-light)";
+                document.body.style.color = "var(--text-light)";
+                document.getElementById('container').style.background = "var(--container-light)";
+                document.querySelector('.modal-content').style.background = "var(--container-light)";
+                document.querySelector('.footer').style.background = "var(--container-light)";
+            }
+        }
+
+        // Initialize with the default number of chapters
+        updateChapterInputs(document.getElementById('chapters').value);
+
+        function updateProgress() {
+            const progressContainer = document.getElementById('progress');
+            progressContainer.innerHTML = ''; // Clear previous progress
+            for (let i = 1; i <= chapters; i++) {
+                const chapter = document.createElement('div');
+                chapter.classList.add('chapter');
+                if (i < currentChapter) {
+                    chapter.classList.add('completed');
+                } else if (i === currentChapter) {
+                    chapter.classList.add('active');
+                }
+                progressContainer.appendChild(chapter);
+            }
+        }
+
+        function toggleStartPause() {
+            if (isPaused) {
+                if (isFirstStart) {
+                    speak(`${chapters} chapters, starting now. Good luck!`);
+                    isFirstStart = false;
+                } else {
+                    speak("Resuming timer...");
+                }
+                startTimer();
+                document.getElementById('start-pause-btn').textContent = 'Pause';
+            } else {
+                speak("Timer Paused...");
+                pauseTimer();
+                document.getElementById('start-pause-btn').textContent = 'Resume';
+            }
+        }
+
+        function startTimer() {
+            clearInterval(timer); // Clear any existing interval before starting a new one
+            isPaused = false;
+            timeLeft = chapterTimes[currentChapter - 1]; // Set timeLeft to the current chapter's time
+
+            timer = setInterval(() => {
+                if (!isPaused) {
+                    timeLeft--;
+                    let minutes = Math.floor(timeLeft / 60);
+                    let seconds = timeLeft % 60;
+                    document.getElementById("timer").textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                    if (timeLeft <= 0) {
+                        clearInterval(timer);
+                        speak(`Chapter ${currentChapter} time's up!`);
+                        nextChapter();
+                    }
+                    if (timeLeft === 300) { // 5 minutes remaining warning
+                        speak("5 minutes remaining!");
+                    }
+                }
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            isPaused = true;
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            currentChapter = 1;
+            timeLeft = chapterTimes[currentChapter - 1];
+            document.getElementById("timer").textContent = formatTime(timeLeft);
+            updateProgress();
+            speak("Timer reset.");
+            document.getElementById('start-pause-btn').textContent = 'Start';
+            isPaused = true;
+            isFirstStart = true;
+        }
+
+        function quitTimer() {
+            clearInterval(timer);
+            timeLeft = chapterTimes[0];
+            document.getElementById("timer").textContent = formatTime(timeLeft);
+            speak("Timer stopped.");
+            document.getElementById('start-pause-btn').textContent = 'Start';
+            isPaused = true;
+            isFirstStart = true;
+        }
+
+        function nextChapter() {
+            clearInterval(timer); // Clear the current interval when moving to the next chapter
+            if (currentChapter < chapters) {
+                currentChapter++;
+                timeLeft = chapterTimes[currentChapter - 1];
+                document.getElementById("timer").textContent = formatTime(timeLeft);
+                speak(`Starting Chapter ${currentChapter}`);
+                updateProgress();
+                if (!isPaused) { // Restart the timer if it was running
+                    startTimer();
+                }
+            } else {
+                speak("All chapters completed!");
+                resetTimer();
+            }
+        }
+
+        function formatTime(seconds) {
+            let minutes = Math.floor(seconds / 60);
+            let remainingSeconds = seconds % 60;
+            return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'p' || event.key === 'P') {
+                toggleStartPause();
+            } else if (event.key === 'r' || event.key === 'R') {
+                resetTimer();
+            } else if (event.key === 'q' || event.key === 'Q') {
+                quitTimer();
+            } else if (event.key === 'n' || event.key === 'N') {
+                nextChapter();
+            }
+        });
+
+
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                const msg = new SpeechSynthesisUtterance(text);
+                window.speechSynthesis.speak(msg);
+            }
+        }
+        // Add this to the script section
+function toggleTheme() {
+    isDarkMode = !isDarkMode;
+    const themeIcon = document.getElementById('themeIcon');
+
+    if (isDarkMode) {
+        document.body.style.background = "var(--background-dark)";
+        document.body.style.color = "var(--text-dark)";
+        document.getElementById('container').style.background = "var(--container-dark)";
+        document.querySelector('.modal-content').style.background = "var(--container-dark)";
+        document.querySelector('.footer').style.background = "var(--container-dark)";
+        themeIcon.textContent = '☀️'; // Change to sun icon
+    } else {
+        document.body.style.background = "var(--background-light)";
+        document.body.style.color = "var(--text-light)";
+        document.getElementById('container').style.background = "var(--container-light)";
+        document.querySelector('.modal-content').style.background = "var(--container-light)";
+        document.querySelector('.footer').style.background = "var(--container-light)";
+        themeIcon.textContent = '🌙'; // Change to moon icon
+    }
+}
+
+// Initialize the theme based on the current mode
+document.addEventListener('DOMContentLoaded', (event) => {
+    updateProgress();
+    // Check if speech synthesis is available
+    if ('speechSynthesis' in window) {
+        speak("Welcome! Please set the number of chapters and start the timer.");
+    } else {
+        console.log("Speech synthesis not available.");
+    }
+    // Visual feedback for readiness (example)
+    document.getElementById('start-pause-btn').classList.add('ready');
+
+    // Initialize theme icon based on default mode
+    document.getElementById('themeIcon').textContent = isDarkMode ? '☀️' : '🌙';
+});
+
+    </script>
+    <footer class="footer">
+        <p>Designed By Dor © <script>document.write(new Date().getFullYear());</script></p>
+        <a href="https://dorpascal.com">dorpascal.com</a>
+    </footer>
+</body>
+</html>

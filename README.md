@@ -1,9 +1,12 @@
-<div align="center" style="margin: 20px">
-   <img src="banner.gif"></img>
-   <br>
-   <h1 style="font-size: 2.5em; margin: 0;">Psycho Timer: A Lightweight Text-to-Speech Timer Application</h1>
-   <h3 style="font-size: 1.5em; margin: 0;">Experience full interactivity in less than 25 KB!</h3>
+<div align="center">
+  <img src="online-demo.gif" width="80%" style="max-width: 800px;" alt="PsychoTimer Demo">
+  <h1>PsychoTimer</h1>
+  <h2>The Lightest Text-to-Speech Timer App</h2>
+  <h3>Efficiency and simplicity, reimagined.</h3>
 </div>
+
+> **UPDATE**: PsychoTimer now supports web browsers!
+> Check out the [dorpascal.com/PsychoTimer](https://dorpascal.com/PsychoTimer/) for a quick and easy way to manage your time.
 
 Psycho Timer is a Python program designed specifically for candidates preparing for the Psychometric Entrance Test (PET). It aids in effective time management during the test by setting individual timers for each section of the exam,  providing audible instructions and alerts, allow tests modifications and more - all combined with a simple user interface.
 

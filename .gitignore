@@ -43,3 +43,5 @@ azure_sdk_key.txt
 
 log.txt
 
+/web/*
+*.mov
