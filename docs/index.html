@@ -16,12 +16,14 @@
     <title>Psycho Timer: A Lightweight Text-to-Speech Timer Application by Dor</title>
     <meta name="author" content="Dor Pascal">
     <meta property="og:title" content="Psycho Timer" />
-    <meta property="og:description" content="A Lightweight Text-to-Speech Timer Application by Dor." />
+    <meta property="og:description" content="A Lightweight Text-to-Speech Timer Application by Dor. Designed for enhanced productivity and focus, perfect for managing time efficiently during work or study sessions." />
     <meta property="og:image" content="https://raw.githubusercontent.com/Dor-sketch/PsychoTimer/main/online-demo.gif" />
     <meta property="og:url" content="https://dorpascal.com/PsychoTimer" />
     <meta property="og:type" content="website" />
-    <meta name='description' content='A Lightweight Text-to-Speech Timer Application by Dor. Designed for enhanced productivity and focus, perfect for managing time efficiently during work or study sessions.'>
-    <link rel="icon" href="icons8-time-180.png" type="image/png">
+    <meta property="og:site_name" content="Psycho Timer: A Lightweight Text-to-Speech Timer Application by Dor" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="description" content="A Lightweight Text-to-Speech Timer Application by Dor. Designed for enhanced productivity and focus, perfect for managing time efficiently during work or study sessions." />
+    <link rel="icon" href="./favicon.ico">
     <style>
         :root {
             --primary-color: #007AFF;
@@ -364,20 +366,26 @@
 </head>
 
 <body>
-     <div id="controls">
-            <!-- Hamburger Menu Icon -->
-            <svg id="menuIcon" onclick="toggleMenu()" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu">
-                <line class="line" x1="3" y1="6" x2="21" y2="6"></line>
-                <line class="line" x1="3" y1="12" x2="21" y2="12"></line>
-                <line class="line" x1="3" y1="18" x2="21" y2="18"></line>
-            </svg>
-            <div class="toggle-container">
-                <label class="toggle-switch">
-                    <input type="checkbox" id="themeToggle" onchange="toggleTheme()">
-                    <span class="slider"></span>
-                </label>
-            </div>
+    <div id="container">
+        <!-- <img src="banner.gif" alt="Banner"> -->
+        <h1>PsychoTimer 2.0 Online</h1>
+        <h3>Text-to-Speech. So light. So fast. So easy.</h3>
+        <div id="timer">20:00</div>
+        <div id="progress"></div>
+        <button id="start-pause-btn" onclick="toggleStartPause()">Start</button>
+        <button onclick="resetTimer()">Reset</button>
+        <button onclick="quitTimer()">Quit</button>
+        <button onclick="nextChapter()">Next Chapter</button>
+        <button onclick="openSettings()">Settings</button>
+        <!-- Replace the toggle container in the body section -->
+        <div class="toggle-container">
+            <label class="toggle-switch">
+                <input type="checkbox" id="themeToggle" onchange="toggleTheme()">
+                <span class="slider"></span>
+            </label>
+            <span id="themeIcon" class="moon-icon">🌙</span>
         </div>
+
     </div>
 
     <!-- The Modal -->
