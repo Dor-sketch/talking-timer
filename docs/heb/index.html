@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T7HFKFX0PR"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-T7HFKFX0PR');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>פייקו טיימר: אפליקציית טיימר קלת משקל עם טקסט לדיבור מאת דור</title>
+    <meta name="author" content="דור פסקל">
+    <meta property="og:title" content="פייקו טיימר" />
+    <meta property="og:description" content="אפליקציית טיימר קלת משקל עם טקסט לדיבור מאת דור." />
+    <meta property="og:image" content="https://raw.githubusercontent.com/Dor-sketch/PsychoTimer/main/online-demo.gif" />
+    <meta property="og:url" content="https://dorpascal.com/PsychoTimer" />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="./favicon.ico">
+    <style>
+:root {
+    --primary-color: #007AFF;
+    --secondary-color: #005BB5;
+    --accent-color: #FFD700;
+    --completed-color: #4CAF50;
+    --neutral-color: #B0BEC5;
+    --background-light: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    --background-dark: linear-gradient(135deg, #161616 0%, #000000 100%);
+    --container-light: #fff;
+    --container-dark: #333;
+    --text-light: #333;
+    --text-dark: #ddd;
+}
+
+body {
+    margin: 0;
+    display: block;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: var(--background-light);
+    color: var(--text-light);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    text-align: center;
+    transition: background 0.3s, color 0.3s;
+    direction: rtl;
+    flex-direction: column;
+}
+
+#container {
+    max-width: calc(min(100%, 800px));
+    padding: 3rem;
+    background: var(--container-light);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    transition: background 0.3s, box-shadow 0.3s;
+    margin: 0 auto;
+    display: block;
+    height: 80vh;
+
+}
+h1 {
+    margin: 0;
+    font-size: 2rem;
+    color: var(--primary-color);
+}
+h3 {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--neutral-color);
+}
+#timer {
+    font-size: 7em;
+    font-weight: bold;
+    margin: 30px 0;
+    color: var(--primary-color);
+    text-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+}
+
+button {
+    font-size: 18px;
+    padding: 15px 30px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    margin: 5px;
+}
+
+button:hover {
+    background-color: var(--secondary-color);
+    transform: scale(1.05);
+}
+#progress {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 40px; /* Increased gap between columns */
+    row-gap: 10px; /* Maintains gap between rows */
+    justify-items: center;
+    margin: 20px 0;
+    aspect-ratio: 1.0;
+}
+
+.item:nth-child(-n+5) {
+    grid-column: 1;
+} /* First 5 items in the first column */
+
+.item:nth-child(n+6):nth-child(-n+8) {
+    grid-column: 2;
+} /* Next 3 items in the second column */
+
+.item:nth-child(6) {
+    padding-top: 20px;
+} /* Extra padding for the first item in the right column */
+.chapter {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color: var(--neutral-color);
+    transition: background-color 0.3s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.active {
+    background-color: var(--accent-color);
+}
+
+.completed {
+    background-color: var(--completed-color);
+}
+
+button.ready {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 122, 255, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 30px rgba(0, 122, 255, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(0, 122, 255, 0);
+    }
+}
+
+#container {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background: var(--container-light);
+    margin: 15% auto;
+    border: 1px solid #888;
+    height: 80vh;
+    max-width: 500px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    text-align: right;
+    transition: background 0.3s;
+    padding: 20px;
+}
+
+.close {
+    color: #aaa;
+    float: left;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.settings,
+.custom-time-input {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+input[type="number"],
+input[type="range"] {
+    width: 100%;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 10px;
+    background: #ddd;
+    outline: none;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+input[type="range"]:hover {
+    opacity: 1;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--primary-color);
+    cursor: pointer;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s;
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: var(--primary-color);
+    cursor: pointer;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s;
+}
+
+#customTimesContainer {
+    margin: 20px;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    background-color: var(--container-light);
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s;
+}
+
+.footer p {
+    margin: 0;
+    font-size: small;
+    color: #999;
+}
+
+.footer a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+.toggle-container {
+    margin: 20px 0;
+}
+
+.toggle-switch {
+    position: relative;
+    width: 60px;
+    height: 34px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+input:checked + .slider {
+    background-color: var(--primary-color);
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.moon-icon,
+.sun-icon {
+    margin-left: 10px;
+    font-size: 24px;
+    color: var(--text-light);
+}
+
+#controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.toggle-switch .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.toggle-switch .slider:before {
+    position: absolute;
+    content: "☀️";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    text-align: center;
+    line-height: 26px;
+    border-radius: 50%;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+    content: "🌙";
+}
+
+input:checked + .slider {
+    background-color: #f0c420;
+}
+
+.slider:active:before {
+    width: 30px;
+}
+
+#settingsModal .modal-content .settings input#chapters {
+    border: 1px solid #ccc;
+    padding: 10px 15px;
+    max-width: 120px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    color: #333;
+    font-family: 'Arial', sans-serif;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#settingsModal .modal-content .settings input#chapters:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+/* Media Queries for Responsiveness */
+
+@media screen and (max-width: 768px) {
+    #container {
+        padding: 2rem;
+
+    }
+    #timer {
+        font-size: 5em;
+    }
+    button {
+        font-size: 16px;
+        padding: 10px 20px;
+    }
+    #progress {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (max-width: 480px) {
+    #container {
+        padding: 1rem;
+                margin-top: 0;
+                padding-top: 0;
+    }
+    #timer {
+        font-size: 4em;
+    }
+    button {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+    #progress {
+        grid-template-columns: repeat(1, 1fr);
+    }
+    .modal-content {
+        margin: 10% auto;
+        width: 90%;
+    }
+}
+
+#container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.css">
+<style>
+    .feather {
+        width: 16px;
+        height: 16px;
+        vertical-align: text-bottom;
+    }
+
+    /* Dark mode */
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --background-light: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --background-dark: linear-gradient(135deg, #161616 0%, #000000 100%);
+            --container-light: #fff;
+            --container-dark: #333;
+            --text-light: #333;
+            --text-dark: #ddd;
+        }
+    }
+
+    /* Light mode */
+    @media (prefers-color-scheme: light) {
+        :root {
+            --background-light: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --background-dark: linear-gradient(135deg, #161616 0%, #000000 100%);
+            --container-light: #fff;
+            --container-dark: #333;
+            --text-light: #333;
+            --text-dark: #ddd;
+        }
+    }
+
+    /* High contrast mode */
+    @media (prefers-color-scheme: high-contrast) {
+        :root {
+            --background-light: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --background-dark: linear-gradient(135deg, #161616 0%, #000000 100%);
+            --container-light: #fff;
+            --container-dark: #333;
+            --text-light: #333;
+            --text-dark: #ddd;
+        }
+    }
+
+    /* Custom toggle switch */
+    .toggle-switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+    .toggle-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+        border-radius: 34px;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "☀️";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: .4s;
+        text-align: center;
+        line-height: 26px;
+        border-radius: 50%;
+    }
+
+    input:checked + .slider:before {
+        transform: translateX(26px);
+        content: "🌙";
+    }
+
+    input:checked + .slider {
+        background-color: #f0c420;
+    }
+
+    .slider:active:before {
+        width: 30px;
+    }
+
+    /* Dark mode */
+    </style>
+    <link rel="stylesheet" href="styles.css">
+</style>
+</head>
+
+<body>
+    <div id="container">
+    <div id="controls">
+        <!-- <img src="banner.gif" alt="Banner"> -->
+        <svg onclick="openSettings()" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33h.01a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.01a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+
+<svg onclick="resetTimer()" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="34" height="34" viewBox="0 0 30 30" stroke="currentColor" fill="currentColor">
+<path d="M 15 3 C 12.031398 3 9.3028202 4.0834384 7.2070312 5.875 A 1.0001 1.0001 0 1 0 8.5058594 7.3945312 C 10.25407 5.9000929 12.516602 5 15 5 C 20.19656 5 24.450989 8.9379267 24.951172 14 L 22 14 L 26 20 L 30 14 L 26.949219 14 C 26.437925 7.8516588 21.277839 3 15 3 z M 4 10 L 0 16 L 3.0507812 16 C 3.562075 22.148341 8.7221607 27 15 27 C 17.968602 27 20.69718 25.916562 22.792969 24.125 A 1.0001 1.0001 0 1 0 21.494141 22.605469 C 19.74593 24.099907 17.483398 25 15 25 C 9.80344 25 5.5490109 21.062074 5.0488281 16 L 8 16 L 4 10 z"></path>
+</svg>
+        <div class="toggle-container">
+            <label class="toggle-switch">
+                <input type="checkbox" id="themeToggle" onchange="toggleTheme()">
+                <span class="slider"></span>
+            </label>
+        </div>
+    </div>
+        <h1>שעון פסיכומטרי</h1>
+        <h3>האפליקציה הטובה ביותר לסימולציית בחינות - עכשיו ברשת!</h3>
+        <div id="timer">20:00</div>
+        <div id="progress" class="chapter-container"></div>
+        <button id="start-pause-btn" onclick="toggleStartPause()">התחל</button>
+               <button id="next" onclick="nextChapter()" style="display: none;">המשך לפרק הבא</button>
+    </div>
+
+    <!-- The Modal -->
+    <div id="settingsModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close" onclick="closeSettings()">&times;</span>
+            <div class="settings">
+                <label for="chapters">מספר פרקים:</label>
+                <input type="number" id="chapters" name="chapters" min="1" max="20" value="8"
+                    onchange="updateChapterInputs(this.value)">
+            </div>
+            <div id="customTimesContainer"></div>
+            <button onclick="saveSettings()">שמור</button>
+        </div>
+    </div>
+
+    <script>
+        let timer;
+        let timeLeft = 1200; // 20 דקות לכל פרק
+        let isPaused = true;
+        let isFirstStart = true;
+        let chapters = 8; // מספר פרקים ברירת מחדל
+        let currentChapter = 1;
+        let chapterTimes = Array(chapters).fill(1200); // זמני ברירת מחדל (20 דקות)
+
+
+        function updateChapterInputs(chapterCount) {
+            const container = document.getElementById('customTimesContainer');
+            container.innerHTML = ''; // נקה את הקלטים הקודמים
+            chapterTimes = Array(parseInt(chapterCount)).fill(1200); // אפס מערך זמנים לפרקים
+
+            for (let i = 1; i <= chapterCount; i++) {
+                const div = document.createElement('div');
+                div.className = 'custom-time-input';
+                const label = document.createElement('label');
+                const input = document.createElement('input');
+                input.type = 'range';
+                input.name = `chapterTime${i}`;
+                input.min = '1';
+                input.max = '60';
+                input.value = chapterTimes[i - 1] / 60; // ערך ברירת מחדל, התאם לפי הצורך
+                const inputValue = document.createElement('span');
+                    label.textContent = `זמן לפרק ${i} (בדקות): ${input.value}`;
+
+                input.oninput = function () {
+                    label.textContent = `זמן לפרק ${i} (בדקות): ${this.value}`;
+                };
+
+                div.appendChild(label);
+                div.appendChild(input);
+                div.appendChild(inputValue);
+                container.appendChild(div);
+
+                // upate the progress bar when the chapter time is changed
+                const progress = document.getElementById('progress');
+                progress.innerHTML = ''; // נקה את התקדמות הקודמת
+                for (let i = 1; i <= chapters; i++) {
+                    const chapter = document.createElement('div');
+                    chapter.classList.add('chapter');
+                    if (i < currentChapter) {
+                        chapter.classList.add('completed');
+                    } else if (i === currentChapter) {
+                        chapter.classList.add('active');
+                    }
+                    progress.appendChild(chapter);
+                }
+            }
+        }
+
+        function saveSettings() {
+        // update number of chapters
+            chapters = parseInt(document.getElementById('chapters').value);
+            const inputs = document.querySelectorAll('.custom-time-input input');
+            inputs.forEach((input, index) => {
+                chapterTimes[index] = parseInt(input.value) * 60; // שמור זמנים בשניות
+            });
+            closeSettings();
+            resetTimer(); // אפס את הטיימר עם ההגדרות החדשות
+            updateProgress(); // עדכן את התקדמות הפרקים
+        }
+
+        function openSettings() {
+            document.getElementById('settingsModal').style.display = 'block';
+        }
+
+        function closeSettings() {
+            document.getElementById('settingsModal').style.display = 'none';
+        }
+
+        function toggleTheme(afterLoading=true) {
+            let isDarkMode =  localStorage.getItem('isDarkMode') === 'true';
+            if (afterLoading) {
+                isDarkMode = !isDarkMode;
+                localStorage.setItem('isDarkMode', isDarkMode);
+            }
+            console.log(isDarkMode);
+
+            if (isDarkMode) {
+                document.body.style.background = "var(--background-dark)";
+                document.body.style.color = "var(--text-dark)";
+                document.getElementById('container').style.background = "var(--container-dark)";
+                document.querySelector('.modal-content').style.background = "var(--container-dark)";
+                document.querySelector('.footer').style.background = "var(--container-dark)";
+            } else {
+                document.body.style.background = "var(--background-light)";
+                document.body.style.color = "var(--text-light)";
+                document.getElementById('container').style.background = "var(--container-light)";
+                document.querySelector('.modal-content').style.background = "var(--container-light)";
+                document.querySelector('.footer').style.background = "var(--container-light)";
+            }
+        }
+
+        // התחל עם מספר הפרקים ברירת מחדל
+        updateChapterInputs(document.getElementById('chapters').value);
+
+        function updateProgress() {
+            const progressContainer = document.getElementById('progress');
+            progressContainer.innerHTML = ''; // נקה את התקדמות הקודמת
+            for (let i = 1; i <= chapters; i++) {
+                const chapter = document.createElement('div');
+                chapter.classList.add('chapter');
+                if (i < currentChapter) {
+                    chapter.classList.add('completed');
+                } else if (i === currentChapter) {
+                    chapter.classList.add('active');
+                }
+                progressContainer.appendChild(chapter);
+            }
+        }
+
+        function toggleStartPause() {
+
+            if (isPaused) {
+                if (isFirstStart) {
+                    speak(`${chapters} פרקים, מתחילים עכשיו. בהצלחה!`);
+                    document.getElementById('next').style.display = 'inline-block';
+                    isFirstStart = false;
+                } else {
+                    speak("ממשיך את הטיימר...");
+                }
+                startTimer();
+                document.getElementById('start-pause-btn').textContent = 'הפסק';
+            } else {
+                speak("הטיימר הושהה...");
+                pauseTimer();
+                document.getElementById('start-pause-btn').textContent = 'המשך';
+            }
+        }
+
+        function startTimer() {
+            clearInterval(timer); // נקה כל מרווח קיים לפני התחלה חדשה
+            isPaused = false;
+            timeLeft = chapterTimes[currentChapter - 1]; // הגדר timeLeft לזמן של הפרק הנוכחי
+
+            timer = setInterval(() => {
+                if (!isPaused) {
+                    timeLeft--;
+                    let minutes = Math.floor(timeLeft / 60);
+                    let seconds = timeLeft % 60;
+                    document.getElementById("timer").textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                    if (timeLeft <= 0) {
+                        clearInterval(timer);
+                        speak(`הזמן של פרק ${currentChapter} הסתיים!`);
+                        nextChapter();
+                    }
+                    if (timeLeft === 300) { // אזהרה של 5 דקות שנותרו
+                        speak("נותרו 5 דקות!");
+                    }
+                }
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            isPaused = true;
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            currentChapter = 1;
+            timeLeft = chapterTimes[currentChapter - 1];
+            document.getElementById("timer").textContent = formatTime(timeLeft);
+            updateProgress();
+            speak("הטיימר אופס.");
+            document.getElementById('start-pause-btn').textContent = 'התחל';
+            isPaused = true;
+            isFirstStart = true;
+        }
+
+        function quitTimer() {
+            clearInterval(timer);
+            timeLeft = chapterTimes[0];
+            document.getElementById("timer").textContent = formatTime(timeLeft);
+            speak("הטיימר נעצר.");
+            document.getElementById('start-pause-btn').textContent = 'התחל';
+            isPaused = true;
+            isFirstStart = true;
+        }
+
+        function nextChapter() {
+            clearInterval(timer); // נקה את המרווח הנוכחי כאשר עוברים לפרק הבא
+            if (currentChapter < chapters) {
+                currentChapter++;
+                timeLeft = chapterTimes[currentChapter - 1 ];
+                document.getElementById("timer").textContent = formatTime(timeLeft);
+                speak(`מתחילים פרק ${currentChapter}`);
+                updateProgress();
+                if (!isPaused) { // התחל מחדש את הטיימר אם הוא היה פעיל
+                    startTimer();
+                }
+            } else {
+                speak("כל הפרקים הושלמו!");
+                resetTimer();
+            }
+        }
+
+        function formatTime(seconds) {
+            let minutes = Math.floor(seconds / 60);
+            let remainingSeconds = seconds % 60;
+            return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+        }
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'p' || event.key === 'P') {
+                toggleStartPause();
+            } else if (event.key === 'r' || event.key === 'R') {
+                resetTimer();
+            } else if (event.key === 'q' || event.key === 'Q') {
+                quitTimer();
+            } else if (event.key === 'n' || event.key === 'N') {
+                nextChapter();
+            }
+        });
+
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                const msg = new SpeechSynthesisUtterance(text);
+                window.speechSynthesis.speak(msg);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            updateProgress();
+            if ('speechSynthesis' in window) {
+                speak("ברוך הבא! בבקשה קבע את מספר הפרקים והתחל את הטיימר.");
+            } else {
+                console.log("יכולת דיבור לא זמינה.");
+            }
+            document.getElementById('start-pause-btn').classList.add('ready');
+
+            toggleTheme(false);
+
+        });
+    </script>
+    <footer class="footer">
+        <p>Designed By דור © <script>document.write(new Date().getFullYear());</script></p>
+        <a href="https://dorpascal.com">dorpascal.com</a>
+    </footer>
+
+
+</body>
+
+</html>
