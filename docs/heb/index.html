@@ -33,7 +33,7 @@
     <link rel="canonical" href="https://dorpascal.com/text-to-speech-timer/heb/">
     <link rel="icon" href="https://dorpascal.com/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;700&display=swap">
-    <meta name="theme-color" content="#f8f9fa">
+    <meta name="theme-color" content="#005bb5">
     <link rel="stylesheet" type="text/css" href="styles.css">
 
     </style>
@@ -42,40 +42,39 @@
 </head>
 
 <body>
-   <header>
-    <div id="controls">
+    <header>
         <!-- Hamburger Menu Icon -->
-        <svg id="menuIcon" onclick="toggleMenu()" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu">
-    <line class="line" x1="3" y1="12" x2="21" y2="12"></line>
-    <line class="line" x1="3" y1="6" x2="21" y2="6"></line>
-    <line class="line" x1="3" y1="18" x2="21" y2="18"></line>
-</svg>
+        <svg id="menuIcon" onclick="toggleMenu()" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" class="feather feather-menu">
+            <line class="line" x1="3" y1="12" x2="21" y2="12"></line>
+            <line class="line" x1="3" y1="6" x2="21" y2="6"></line>
+            <line class="line" x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+        <h1>שעון פסיכומטרי</h1>
         <div class="toggle-container">
             <label class="toggle-switch">
                 <input type="checkbox" id="themeToggle" onchange="toggleTheme()">
                 <span class="slider"></span>
             </label>
         </div>
-    </div>
-</header>
+    </header>
 
     <div id="container">
-        <h1>שעון פסיכומטרי</h1>
         <h3>האפליקציה הטובה ביותר לסימולציית בחינות - עכשיו ברשת!</h3>
         <div id="timer">20:00</div>
         <div id="progress" class="chapter-container"></div>
         <button id="start-pause-btn" onclick="toggleStartPause()">התחל</button>
-        <button id="next" onclick="nextChapter()" style="display: none;">המשך לפרק הבא</button>
+        <button id="next" onclick="nextChapter()" style="display: none;">דלג</button>
     </div>
 
     <!-- The Modal -->
     <div id="settingsModal" class="modal">
         <!-- Modal content -->
         <div class="modal-content">
-            <span class="close" onclick="closeSettings()">&times;</span>
-            <div class="settings">
+            <div class="settings" style="display:flex;  align-items: center;">
                 <label for="chapters">מספר פרקים:</label>
-                <input type="number" id="chapters" name="chapters" min="1" max="20" value="8"
+                <input type="number" id="chapters" name="chapters" min="1" max="8" value="8"
                     onchange="updateChapterInputs(this.value)">
             </div>
             <div id="customTimesContainer"></div>
@@ -176,7 +175,7 @@
                 // header
                 document.querySelector('header').style.background = "var(--container-dark)";
                 document.querySelector('header').style.color = "var(--text-dark)";
-                document.querySelector('meta[name="theme-color"]').setAttribute("content", "#343a40");
+                // document.querySelector('meta[name="theme-color"]').setAttribute("content", "#343a40");
             } else {
                 document.body.style.background = "var(--background-light)";
                 document.body.style.color = "var(--text-light)";
@@ -189,7 +188,7 @@
                 document.querySelector('header').style.background = "var(--container-light)";
                 document.querySelector('header').style.color = "var(--text-light)";
                 // theme of page - change color for browser
-                document.querySelector('meta[name="theme-color"]').setAttribute("content", "#f8f9fa");
+                // document.querySelector('meta[name="theme-color"]').setAttribute("content", "#f8f9fa");
 
             }
         }
@@ -332,6 +331,9 @@
 
         });
 
+    </script>
+
+    <script>
         function toggleMenu() {
             const menuIcon = document.getElementById('menuIcon');
             menuIcon.classList.toggle('toggle');
@@ -342,6 +344,14 @@
             } else {
                 closeSettings(); // Function to close settings, needs to be implemented
             }
+        }
+
+        function openSettings() {
+            document.getElementById('settingsModal').style.display = 'block';
+        }
+
+        function closeSettings() {
+            document.getElementById('settingsModal').style.display = 'none';
         }
     </script>
     <footer class="footer">

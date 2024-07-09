@@ -14,7 +14,7 @@
 }
 
 body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     background: var(--background-light);
     color: var(--text-light);
     margin: 0;
@@ -22,7 +22,8 @@ body {
     height: 100vh;
     overflow: hidden; /* Lock scrolling */
     transition: background 0.3s, color 0.3s;
-    margin-top: 60px; /* Add space for fixed header */
+    animation: fadeIn 1s ease-in-out;
+    margin-top: 60px;
 }
 
 #container {
@@ -36,24 +37,26 @@ body {
     position: relative;
     max-width: 800px;
     margin: 0 auto;
+    margin-top: 0;
+    padding-top: 0;
 }
 
 h1 {
-    font-size: 2.5em;
-    margin: 0.5em 0;
+    font-size: 2em;
+    margin: 0.1em 0;
     animation: slideIn 1s ease-in-out;
 }
 
 h3 {
     font-size: 1.2em;
-    margin: 0.5em 0 1.5em 0;
+    margin: 0.1em 0 0.5em 0;
     color: #888888;
     animation: slideIn 1s ease-in-out;
 }
 
 #timer {
     font-size: 5em;
-
+    margin: 0;
     font-weight: bold;
     animation: pulse 1s infinite;
 }
@@ -86,7 +89,6 @@ button {
     background: var(--button-background);
     border: none;
     color: white;
-    padding: 0.8em 2em;
     margin: 0.5em;
     font-size: 1em;
     border-radius: 5px;
@@ -109,7 +111,6 @@ svg {
 
 
 .toggle-container {
-    display: flex;
     align-items: center;
     margin-left: auto;
 }
@@ -171,8 +172,16 @@ input:checked + .slider:before {
     overflow: hidden; /* Lock scrolling */
     background: var(--modal-background);
     animation: fadeIn 0.5s ease-in-out;
+    align-items: center;
+    justify-content: center;
 }
-
+#chapters {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5em;
+    margin: 1em 0;
+}
 .modal-content {
     background: var(--container-light);
     margin: 10% auto;
@@ -208,8 +217,14 @@ footer {
     bottom: 0;
     width: 100%;
     font-size: 0.9em;
-    color: #888888;
+    color: #f3f3f3;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
     text-align: center;
+    padding: 0;
+    margin: 0;
+    background: linear-gradient(to bottom, #007aff, #005bb5) !important;
+    animation: fadeIn 1s ease-in-out;
+
 }
 
 footer a {
@@ -247,6 +262,102 @@ body.dark .chapter.completed {
     background: #66bb6a;
 }
 
+button {
+    padding: 0.5em 1em;
+    width: 40%;
+    background-image: linear-gradient(to bottom, #f9f9f9, #e5e5e5);
+    border: 1px solid #d1d1d1;
+    border-radius: 20px; /* Rounded corners */
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+    color: #333; /* Dark text color for contrast */
+    text-align: center;
+    cursor: pointer;
+    transition: background-image 0.3s, box-shadow 0.3s; /* Smooth transitions for interactions */
+}
+
+button:hover {
+    background-image: linear-gradient(to bottom, #f0f0f0, #d9d9d9);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); /* Slightly more pronounced shadow on hover */
+}
+
+button:active {
+    background-image: linear-gradient(to bottom, #e5e5e5, #f9f9f9); /* Invert gradient for pressed effect */
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); /* Inner shadow to simulate depth when pressed */
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    top: 0;
+    position: fixed; /* Fix header at the top */
+    background-color: #fff; /* Light background for the header */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Ensure header is above other content */
+    padding-bottom: 0.4em; /* Add padding to the bottom of the header */
+    padding-top: 0.4em; /* Add padding to the bottom of the header */
+
+}
+header > * {
+    flex-grow: 1;
+    text-align: center; /* Example to center content within each child */
+}
+#controls {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1em; /* Space between controls */
+}
+
+.control-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5em;
+    border-radius: 10px; /* Rounded corners for buttons */
+    transition: background-color 0.3s;
+}
+
+.control-button:hover {
+    background-color: #f0f0f0; /* Light background on hover for feedback */
+}
+
+.control-button:active {
+    background-color: #e0e0e0; /* Slightly darker on click */
+}
+
+/* styles.css */
+
+.line {
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    transform-origin: center; /* Ensuring transformations are centered */
+}
+
+/* Targeting the state when the menu is toggled */
+.toggle .line:nth-child(1) {
+    opacity: 0; /* Hiding the first line */
+}
+
+.toggle .line:nth-child(2) {
+    /* Using relative units (em) for translateY to scale with zoom */
+    transform: translateY(0.25em) rotate(45deg);
+}
+
+.toggle .line:nth-child(3) {
+    /* Using relative units (em) for translateX to scale with zoom */
+    transform: translateY(-0.25em) rotate(-45deg);
+}
+
+/* Other existing CSS */
+        @media (orientation: portrait) {
+            #container {
+                height: 100vh;
+                justify-content: center;
+            }
+
+        }
 /* Animations */
 @keyframes fadeIn {
     from {
@@ -291,11 +402,11 @@ body.dark .chapter.completed {
 
 @media (max-width: 600px) {
     h1 {
-        font-size: 2em;
+        font-size: 1.3em;
     }
 
     h3 {
-        font-size: 1em;
+        display: none;
     }
 
     #timer {
@@ -312,7 +423,7 @@ body.dark .chapter.completed {
     }
 
     button {
-        font-size: 0.9em;
+        font-size: 1.1em;
     }
 
     footer {
@@ -320,86 +431,4 @@ body.dark .chapter.completed {
     }
 
 
-}
-
-button {
-    padding: 0.5em 1em;
-    font-size: 0.8em;
-    width: 100%;
-    background-image: linear-gradient(to bottom, #f9f9f9, #e5e5e5);
-    border: 1px solid #d1d1d1;
-    border-radius: 20px; /* Rounded corners */
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
-    color: #333; /* Dark text color for contrast */
-    text-align: center;
-    cursor: pointer;
-    transition: background-image 0.3s, box-shadow 0.3s; /* Smooth transitions for interactions */
-}
-
-button:hover {
-    background-image: linear-gradient(to bottom, #f0f0f0, #d9d9d9);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); /* Slightly more pronounced shadow on hover */
-}
-
-button:active {
-    background-image: linear-gradient(to bottom, #e5e5e5, #f9f9f9); /* Invert gradient for pressed effect */
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); /* Inner shadow to simulate depth when pressed */
-}
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    top: 0;
-    position: fixed; /* Fix header at the top */
-    background-color: #fff; /* Light background for the header */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    z-index: 1000; /* Ensure header is above other content */
-    padding: 0.5em 1em; /* Add some padding */
-}
-
-#controls {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 1em; /* Space between controls */
-}
-
-.control-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0.5em;
-    border-radius: 10px; /* Rounded corners for buttons */
-    transition: background-color 0.3s;
-}
-
-.control-button:hover {
-    background-color: #f0f0f0; /* Light background on hover for feedback */
-}
-
-.control-button:active {
-    background-color: #e0e0e0; /* Slightly darker on click */
-}
-
-
-.line {
-    transition: transform 0.5s ease, opacity 0.5s ease;
-    transform-origin: center; /* Ensuring transformations are centered */
-}
-
-/* Targeting the state when the menu is toggled */
-.toggle .line:nth-child(1) {
-    opacity: 0; /* Hiding the first line */
-}
-
-.toggle .line:nth-child(2) {
-    /* Using relative units (em) for translateY to scale with zoom */
-    transform: translateY(0.25em) rotate(45deg);
-}
-
-.toggle .line:nth-child(3) {
-    /* Using relative units (em) for translateX to scale with zoom */
-    transform: translateY(-0.25em) rotate(-45deg);
 }
