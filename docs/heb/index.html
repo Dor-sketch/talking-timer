@@ -22,7 +22,8 @@
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="he_IL" />
     <meta property="og:site_name" content="שעון פסיכומטרי" />
-    <meta name="keywords" content="טיימר, שעון, פסיכומטרי, כמותי, מילולי, זמן, שעון לפסיכומטרי, טיימר לפסיכומטרי, סימולציות פסיכומטרי, סטופר, זמן, חיבור, שאלון, בחינה, הכי טוב">
+    <meta name="keywords"
+        content="טיימר, שעון, פסיכומטרי, כמותי, מילולי, זמן, שעון לפסיכומטרי, טיימר לפסיכומטרי, סימולציות פסיכומטרי, סטופר, זמן, חיבור, שאלון, בחינה, הכי טוב">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@dorpascal">
     <meta name="twitter:creator" content="@dorpascal">
@@ -31,23 +32,23 @@
     <meta name="twitter:image" content="https://dorpascal.com/text-to-speech-timer/banner.png">
     <link rel="canonical" href="https://dorpascal.com/text-to-speech-timer/heb/">
     <link rel="icon" href="https://dorpascal.com/favicon.ico" type="image/x-icon">
-
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;700&display=swap">
+    <meta name="theme-color" content="#f8f9fa">
     <link rel="stylesheet" type="text/css" href="styles.css">
 
     </style>
     <link rel="stylesheet" href="styles.css">
-</style>
+    </style>
 </head>
 
 <body>
-    <div id="container">
+   <header>
     <div id="controls">
-        <svg onclick="openSettings()" smlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 48 48">
-<linearGradient id="L4rKfs~Qrm~k0Pk8MRsoza_s5NUIabJrb4C_gr1" x1="32.012" x2="15.881" y1="32.012" y2="15.881" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff"></stop><stop offset=".242" stop-color="#f2f2f2"></stop><stop offset="1" stop-color="#ccc"></stop></linearGradient><circle cx="24" cy="24" r="11.5" fill="url(#L4rKfs~Qrm~k0Pk8MRsoza_s5NUIabJrb4C_gr1)"></circle><linearGradient id="L4rKfs~Qrm~k0Pk8MRsozb_s5NUIabJrb4C_gr2" x1="17.45" x2="28.94" y1="17.45" y2="28.94" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#0d61a9"></stop><stop offset=".363" stop-color="#0e5fa4"></stop><stop offset=".78" stop-color="#135796"></stop><stop offset="1" stop-color="#16528c"></stop></linearGradient><circle cx="24" cy="24" r="7" fill="url(#L4rKfs~Qrm~k0Pk8MRsozb_s5NUIabJrb4C_gr2)"></circle><linearGradient id="L4rKfs~Qrm~k0Pk8MRsozc_s5NUIabJrb4C_gr3" x1="5.326" x2="38.082" y1="5.344" y2="38.099" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#889097"></stop><stop offset=".331" stop-color="#848c94"></stop><stop offset=".669" stop-color="#78828b"></stop><stop offset="1" stop-color="#64717c"></stop></linearGradient><path fill="url(#L4rKfs~Qrm~k0Pk8MRsozc_s5NUIabJrb4C_gr3)" d="M43.407,19.243c-2.389-0.029-4.702-1.274-5.983-3.493c-1.233-2.136-1.208-4.649-0.162-6.693 c-2.125-1.887-4.642-3.339-7.43-4.188C28.577,6.756,26.435,8,24,8s-4.577-1.244-5.831-3.131c-2.788,0.849-5.305,2.301-7.43,4.188 c1.046,2.044,1.071,4.557-0.162,6.693c-1.281,2.219-3.594,3.464-5.983,3.493C4.22,20.77,4,22.358,4,24 c0,1.284,0.133,2.535,0.364,3.752c2.469-0.051,4.891,1.208,6.213,3.498c1.368,2.37,1.187,5.204-0.22,7.345 c2.082,1.947,4.573,3.456,7.34,4.375C18.827,40.624,21.221,39,24,39s5.173,1.624,6.303,3.971c2.767-0.919,5.258-2.428,7.34-4.375 c-1.407-2.141-1.588-4.975-0.22-7.345c1.322-2.29,3.743-3.549,6.213-3.498C43.867,26.535,44,25.284,44,24 C44,22.358,43.78,20.77,43.407,19.243z M24,34.5c-5.799,0-10.5-4.701-10.5-10.5c0-5.799,4.701-10.5,10.5-10.5S34.5,18.201,34.5,24 C34.5,29.799,29.799,34.5,24,34.5z"></path>
-</svg>
-
-<svg onclick="resetTimer()" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="34" height="34" viewBox="0 0 30 30" stroke="currentColor" fill="currentColor">
-<path d="M 15 3 C 12.031398 3 9.3028202 4.0834384 7.2070312 5.875 A 1.0001 1.0001 0 1 0 8.5058594 7.3945312 C 10.25407 5.9000929 12.516602 5 15 5 C 20.19656 5 24.450989 8.9379267 24.951172 14 L 22 14 L 26 20 L 30 14 L 26.949219 14 C 26.437925 7.8516588 21.277839 3 15 3 z M 4 10 L 0 16 L 3.0507812 16 C 3.562075 22.148341 8.7221607 27 15 27 C 17.968602 27 20.69718 25.916562 22.792969 24.125 A 1.0001 1.0001 0 1 0 21.494141 22.605469 C 19.74593 24.099907 17.483398 25 15 25 C 9.80344 25 5.5490109 21.062074 5.0488281 16 L 8 16 L 4 10 z"></path>
+        <!-- Hamburger Menu Icon -->
+        <svg id="menuIcon" onclick="toggleMenu()" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu">
+    <line class="line" x1="3" y1="12" x2="21" y2="12"></line>
+    <line class="line" x1="3" y1="6" x2="21" y2="6"></line>
+    <line class="line" x1="3" y1="18" x2="21" y2="18"></line>
 </svg>
         <div class="toggle-container">
             <label class="toggle-switch">
@@ -56,12 +57,15 @@
             </label>
         </div>
     </div>
+</header>
+
+    <div id="container">
         <h1>שעון פסיכומטרי</h1>
         <h3>האפליקציה הטובה ביותר לסימולציית בחינות - עכשיו ברשת!</h3>
         <div id="timer">20:00</div>
         <div id="progress" class="chapter-container"></div>
         <button id="start-pause-btn" onclick="toggleStartPause()">התחל</button>
-               <button id="next" onclick="nextChapter()" style="display: none;">המשך לפרק הבא</button>
+        <button id="next" onclick="nextChapter()" style="display: none;">המשך לפרק הבא</button>
     </div>
 
     <!-- The Modal -->
@@ -105,7 +109,7 @@
                 input.max = '60';
                 input.value = chapterTimes[i - 1] / 60; // ערך ברירת מחדל, התאם לפי הצורך
                 const inputValue = document.createElement('span');
-                    label.textContent = `זמן לפרק ${i} (בדקות): ${input.value}`;
+                label.textContent = `זמן לפרק ${i} (בדקות): ${input.value}`;
 
                 input.oninput = function () {
                     label.textContent = `זמן לפרק ${i} (בדקות): ${this.value}`;
@@ -133,7 +137,7 @@
         }
 
         function saveSettings() {
-        // update number of chapters
+            // update number of chapters
             chapters = parseInt(document.getElementById('chapters').value);
             const inputs = document.querySelectorAll('.custom-time-input input');
             inputs.forEach((input, index) => {
@@ -145,7 +149,7 @@
         }
 
         function openSettings() {
-        console.log('open settings');
+            console.log('open settings');
             document.getElementById('settingsModal').style.display = 'block';
         }
 
@@ -153,8 +157,8 @@
             document.getElementById('settingsModal').style.display = 'none';
         }
 
-        function toggleTheme(afterLoading=true) {
-            let isDarkMode =  localStorage.getItem('isDarkMode') === 'true';
+        function toggleTheme(afterLoading = true) {
+            let isDarkMode = localStorage.getItem('isDarkMode') === 'true';
             if (afterLoading) {
                 isDarkMode = !isDarkMode;
                 localStorage.setItem('isDarkMode', isDarkMode);
@@ -167,12 +171,26 @@
                 document.getElementById('container').style.background = "var(--container-dark)";
                 document.querySelector('.modal-content').style.background = "var(--container-dark)";
                 document.querySelector('.footer').style.background = "var(--container-dark)";
+                document.getElementById('settingsModal').style.background = "var(--container-dark)";
+                document.getElementById('settingsModal').style.color = "var(--text-dark)";
+                // header
+                document.querySelector('header').style.background = "var(--container-dark)";
+                document.querySelector('header').style.color = "var(--text-dark)";
+                document.querySelector('meta[name="theme-color"]').setAttribute("content", "#343a40");
             } else {
                 document.body.style.background = "var(--background-light)";
                 document.body.style.color = "var(--text-light)";
                 document.getElementById('container').style.background = "var(--container-light)";
                 document.querySelector('.modal-content').style.background = "var(--container-light)";
                 document.querySelector('.footer').style.background = "var(--container-light)";
+                document.getElementById('settingsModal').style.background = "var(--container-light)";
+                document.getElementById('settingsModal').style.color = "var(--text-light)";
+                // header
+                document.querySelector('header').style.background = "var(--container-light)";
+                document.querySelector('header').style.color = "var(--text-light)";
+                // theme of page - change color for browser
+                document.querySelector('meta[name="theme-color"]').setAttribute("content", "#f8f9fa");
+
             }
         }
 
@@ -193,44 +211,44 @@
                 progressContainer.appendChild(chapter);
             }
         }
-function toggleStartPause() {
-    if (isPaused) {
-        if (isFirstStart) {
-            speak(`${chapters} פרקים, מתחילים עכשיו. בהצלחה!`);
-            document.getElementById('next').style.display = 'inline-block';
-            isFirstStart = false;
-        } else {
-            speak("ממשיך את הטיימר...");
+        function toggleStartPause() {
+            if (isPaused) {
+                if (isFirstStart) {
+                    speak(`${chapters} פרקים, מתחילים עכשיו. בהצלחה!`);
+                    document.getElementById('next').style.display = 'inline-block';
+                    isFirstStart = false;
+                } else {
+                    speak("ממשיך את הטיימר...");
+                }
+                startTimer();
+                document.getElementById('start-pause-btn').textContent = 'הפסק';
+            } else {
+                speak("הטיימר הושהה...");
+                pauseTimer();
+                document.getElementById('start-pause-btn').textContent = 'המשך';
+            }
         }
-        startTimer();
-        document.getElementById('start-pause-btn').textContent = 'הפסק';
-    } else {
-        speak("הטיימר הושהה...");
-        pauseTimer();
-        document.getElementById('start-pause-btn').textContent = 'המשך';
-    }
-}
 
-function startTimer() {
-    clearInterval(timer); // נקה כל מרווח קיים לפני התחלה חדשה
-    isPaused = false;
-    timer = setInterval(() => {
-        if (!isPaused) {
-            timeLeft--;
-            let minutes = Math.floor(timeLeft / 60);
-            let seconds = timeLeft % 60;
-            document.getElementById("timer").textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-            if (timeLeft <= 0) {
-                clearInterval(timer);
-                speak(`הזמן של פרק ${currentChapter} הסתיים!`);
-                nextChapter();
-            }
-            if (timeLeft === 300) { // אזהרה של 5 דקות שנותרו
-                speak("נותרו 5 דקות!");
-            }
+        function startTimer() {
+            clearInterval(timer); // נקה כל מרווח קיים לפני התחלה חדשה
+            isPaused = false;
+            timer = setInterval(() => {
+                if (!isPaused) {
+                    timeLeft--;
+                    let minutes = Math.floor(timeLeft / 60);
+                    let seconds = timeLeft % 60;
+                    document.getElementById("timer").textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                    if (timeLeft <= 0) {
+                        clearInterval(timer);
+                        speak(`הזמן של פרק ${currentChapter} הסתיים!`);
+                        nextChapter();
+                    }
+                    if (timeLeft === 300) { // אזהרה של 5 דקות שנותרו
+                        speak("נותרו 5 דקות!");
+                    }
+                }
+            }, 1000);
         }
-    }, 1000);
-}
 
 
         function pauseTimer() {
@@ -263,7 +281,7 @@ function startTimer() {
             clearInterval(timer); // נקה את המרווח הנוכחי כאשר עוברים לפרק הבא
             if (currentChapter < chapters) {
                 currentChapter++;
-                timeLeft = chapterTimes[currentChapter - 1 ];
+                timeLeft = chapterTimes[currentChapter - 1];
                 document.getElementById("timer").textContent = formatTime(timeLeft);
                 speak(`מתחילים פרק ${currentChapter}`);
                 updateProgress();
@@ -313,10 +331,24 @@ function startTimer() {
             toggleTheme(false);
 
         });
+
+        function toggleMenu() {
+            const menuIcon = document.getElementById('menuIcon');
+            menuIcon.classList.toggle('toggle');
+
+            // Toggle between opening and closing the settings
+            if (menuIcon.classList.contains('toggle')) {
+                openSettings(); // Function to open settings
+            } else {
+                closeSettings(); // Function to close settings, needs to be implemented
+            }
+        }
     </script>
     <footer class="footer">
-        <p>פותח על-ידי דור © <script>document.write(new Date().getFullYear());</script>
-        <a href="https://dorpascal.com">dorpascal.com</a></p>
+        <p>פותח על-ידי דור ©
+            <script>document.write(new Date().getFullYear());</script>
+            <a href="https://dorpascal.com">dorpascal.com</a>
+        </p>
     </footer>
 
 

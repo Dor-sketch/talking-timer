@@ -18,13 +18,11 @@ body {
     background: var(--background-light);
     color: var(--text-light);
     margin: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    display: block;
     height: 100vh;
     overflow: hidden; /* Lock scrolling */
     transition: background 0.3s, color 0.3s;
+    margin-top: 60px; /* Add space for fixed header */
 }
 
 #container {
@@ -36,6 +34,8 @@ body {
     transition: background 0.3s;
     animation: fadeIn 1s ease-in-out;
     position: relative;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 h1 {
@@ -52,8 +52,8 @@ h3 {
 }
 
 #timer {
-    font-size: 3em;
-    margin: 1em 0;
+    font-size: 5em;
+
     font-weight: bold;
     animation: pulse 1s infinite;
 }
@@ -64,16 +64,15 @@ h3 {
     margin: 1em 0;
     animation: fadeIn 1s ease-in-out;
 }
-
 .chapter {
-    width: 20px;
-    height: 20px;
+    width: 40px;
+    height: 40px;
     margin: 0 2px;
-    border-radius: 50%;
+    /* Adjust border-radius as needed; remove or set to 0 for no rounded corners */
+    border-radius: 4px; /* Example for slightly rounded corners */
     background: #d0d0d0;
     transition: background 0.3s;
 }
-
 .chapter.active {
     background: var(--primary-color);
     animation: pulseActive 1s infinite;
@@ -100,12 +99,6 @@ button:hover {
     background: var(--button-hover);
 }
 
-#controls {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 1em;
-}
 
 svg {
     cursor: pointer;
@@ -113,9 +106,7 @@ svg {
     transition: transform 0.3s;
 }
 
-svg:hover {
-    transform: rotate(360deg);
-}
+
 
 .toggle-container {
     display: flex;
@@ -308,7 +299,7 @@ body.dark .chapter.completed {
     }
 
     #timer {
-        font-size: 2em;
+        font-size: 4em;
     }
 
     #progress {
@@ -328,8 +319,87 @@ body.dark .chapter.completed {
         font-size: 0.8em;
     }
 
-    body {
-        justify-content: flex-start;
-        padding: 1em;
-    }
+
+}
+
+button {
+    padding: 0.5em 1em;
+    font-size: 0.8em;
+    width: 100%;
+    background-image: linear-gradient(to bottom, #f9f9f9, #e5e5e5);
+    border: 1px solid #d1d1d1;
+    border-radius: 20px; /* Rounded corners */
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+    color: #333; /* Dark text color for contrast */
+    text-align: center;
+    cursor: pointer;
+    transition: background-image 0.3s, box-shadow 0.3s; /* Smooth transitions for interactions */
+}
+
+button:hover {
+    background-image: linear-gradient(to bottom, #f0f0f0, #d9d9d9);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); /* Slightly more pronounced shadow on hover */
+}
+
+button:active {
+    background-image: linear-gradient(to bottom, #e5e5e5, #f9f9f9); /* Invert gradient for pressed effect */
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); /* Inner shadow to simulate depth when pressed */
+}
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    top: 0;
+    position: fixed; /* Fix header at the top */
+    background-color: #fff; /* Light background for the header */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Ensure header is above other content */
+    padding: 0.5em 1em; /* Add some padding */
+}
+
+#controls {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1em; /* Space between controls */
+}
+
+.control-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5em;
+    border-radius: 10px; /* Rounded corners for buttons */
+    transition: background-color 0.3s;
+}
+
+.control-button:hover {
+    background-color: #f0f0f0; /* Light background on hover for feedback */
+}
+
+.control-button:active {
+    background-color: #e0e0e0; /* Slightly darker on click */
+}
+
+
+.line {
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    transform-origin: center; /* Ensuring transformations are centered */
+}
+
+/* Targeting the state when the menu is toggled */
+.toggle .line:nth-child(1) {
+    opacity: 0; /* Hiding the first line */
+}
+
+.toggle .line:nth-child(2) {
+    /* Using relative units (em) for translateY to scale with zoom */
+    transform: translateY(0.25em) rotate(45deg);
+}
+
+.toggle .line:nth-child(3) {
+    /* Using relative units (em) for translateX to scale with zoom */
+    transform: translateY(-0.25em) rotate(-45deg);
 }
