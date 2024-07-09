@@ -33,103 +33,7 @@
     <link rel="icon" href="https://dorpascal.com/favicon.ico" type="image/x-icon">
 
     <link rel="stylesheet" type="text/css" href="styles.css">
-    <style>
-    .feather {
-        width: 16px;
-        height: 16px;
-        vertical-align: text-bottom;
-    }
 
-    /* Dark mode */
-    @media (prefers-color-scheme: dark) {
-        :root {
-            --background-light: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            --background-dark: linear-gradient(135deg, #161616 0%, #000000 100%);
-            --container-light: #fff;
-            --container-dark: #333;
-            --text-light: #333;
-            --text-dark: #ddd;
-        }
-    }
-
-    /* Light mode */
-    @media (prefers-color-scheme: light) {
-        :root {
-            --background-light: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            --background-dark: linear-gradient(135deg, #161616 0%, #000000 100%);
-            --container-light: #fff;
-            --container-dark: #333;
-            --text-light: #333;
-            --text-dark: #ddd;
-        }
-    }
-
-    /* High contrast mode */
-    @media (prefers-color-scheme: high-contrast) {
-        :root {
-            --background-light: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            --background-dark: linear-gradient(135deg, #161616 0%, #000000 100%);
-            --container-light: #fff;
-            --container-dark: #333;
-            --text-light: #333;
-            --text-dark: #ddd;
-        }
-    }
-
-    /* Custom toggle switch */
-    .toggle-switch {
-        position: relative;
-        display: inline-block;
-        width: 60px;
-        height: 34px;
-    }
-
-    .toggle-switch input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
-
-    .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #ccc;
-        transition: .4s;
-        border-radius: 34px;
-    }
-
-    .slider:before {
-        position: absolute;
-        content: "☀️";
-        height: 26px;
-        width: 26px;
-        left: 4px;
-        bottom: 4px;
-        background-color: white;
-        transition: .4s;
-        text-align: center;
-        line-height: 26px;
-        border-radius: 50%;
-    }
-
-    input:checked + .slider:before {
-        transform: translateX(26px);
-        content: "🌙";
-    }
-
-    input:checked + .slider {
-        background-color: #f0c420;
-    }
-
-    .slider:active:before {
-        width: 30px;
-    }
-
-    /* Dark mode */
     </style>
     <link rel="stylesheet" href="styles.css">
 </style>
@@ -289,48 +193,45 @@
                 progressContainer.appendChild(chapter);
             }
         }
+function toggleStartPause() {
+    if (isPaused) {
+        if (isFirstStart) {
+            speak(`${chapters} פרקים, מתחילים עכשיו. בהצלחה!`);
+            document.getElementById('next').style.display = 'inline-block';
+            isFirstStart = false;
+        } else {
+            speak("ממשיך את הטיימר...");
+        }
+        startTimer();
+        document.getElementById('start-pause-btn').textContent = 'הפסק';
+    } else {
+        speak("הטיימר הושהה...");
+        pauseTimer();
+        document.getElementById('start-pause-btn').textContent = 'המשך';
+    }
+}
 
-        function toggleStartPause() {
-
-            if (isPaused) {
-                if (isFirstStart) {
-                    speak(`${chapters} פרקים, מתחילים עכשיו. בהצלחה!`);
-                    document.getElementById('next').style.display = 'inline-block';
-                    isFirstStart = false;
-                } else {
-                    speak("ממשיך את הטיימר...");
-                }
-                startTimer();
-                document.getElementById('start-pause-btn').textContent = 'הפסק';
-            } else {
-                speak("הטיימר הושהה...");
-                pauseTimer();
-                document.getElementById('start-pause-btn').textContent = 'המשך';
+function startTimer() {
+    clearInterval(timer); // נקה כל מרווח קיים לפני התחלה חדשה
+    isPaused = false;
+    timer = setInterval(() => {
+        if (!isPaused) {
+            timeLeft--;
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            document.getElementById("timer").textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                speak(`הזמן של פרק ${currentChapter} הסתיים!`);
+                nextChapter();
+            }
+            if (timeLeft === 300) { // אזהרה של 5 דקות שנותרו
+                speak("נותרו 5 דקות!");
             }
         }
+    }, 1000);
+}
 
-        function startTimer() {
-            clearInterval(timer); // נקה כל מרווח קיים לפני התחלה חדשה
-            isPaused = false;
-            timeLeft = chapterTimes[currentChapter - 1]; // הגדר timeLeft לזמן של הפרק הנוכחי
-
-            timer = setInterval(() => {
-                if (!isPaused) {
-                    timeLeft--;
-                    let minutes = Math.floor(timeLeft / 60);
-                    let seconds = timeLeft % 60;
-                    document.getElementById("timer").textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-                    if (timeLeft <= 0) {
-                        clearInterval(timer);
-                        speak(`הזמן של פרק ${currentChapter} הסתיים!`);
-                        nextChapter();
-                    }
-                    if (timeLeft === 300) { // אזהרה של 5 דקות שנותרו
-                        speak("נותרו 5 דקות!");
-                    }
-                }
-            }, 1000);
-        }
 
         function pauseTimer() {
             isPaused = true;
@@ -414,8 +315,8 @@
         });
     </script>
     <footer class="footer">
-        <p>Designed By דור © <script>document.write(new Date().getFullYear());</script></p>
-        <a href="https://dorpascal.com">dorpascal.com</a>
+        <p>פותח על-ידי דור © <script>document.write(new Date().getFullYear());</script>
+        <a href="https://dorpascal.com">dorpascal.com</a></p>
     </footer>
 
 
