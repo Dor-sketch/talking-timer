@@ -37,7 +37,9 @@
     <link rel="stylesheet" type="text/css" href="styles.css">
 
     </style>
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+           <link rel="stylesheet" href="styles.css">
     </style>
 </head>
 
@@ -108,10 +110,10 @@
                 input.max = '60';
                 input.value = chapterTimes[i - 1] / 60; // ערך ברירת מחדל, התאם לפי הצורך
                 const inputValue = document.createElement('span');
-                label.textContent = `זמן לפרק ${i} (בדקות): ${input.value}`;
+                label.textContent = `פרק ${i} - ${input.value}`;
 
                 input.oninput = function () {
-                    label.textContent = `זמן לפרק ${i} (בדקות): ${this.value}`;
+                    label.textContent = `פרק ${i} - ${this.value}`;
                 };
 
                 div.appendChild(label);
