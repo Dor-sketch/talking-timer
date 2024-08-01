@@ -6,7 +6,7 @@
 </div>
 
 > **UPDATE**: PsychoTimer now supports web browsers!
-> Check out the [dorpascal.com/PsychoTimer](https://dorpascal.com/PsychoTimer/) for a quick and easy way to manage your time.
+> Check out the [dorpascal.com/talking-timer/](https://dorpascal.com/talking-timer/) for a quick and easy way to manage your time.
 
 Psycho Timer is a Python program designed specifically for candidates preparing for the Psychometric Entrance Test (PET). It aids in effective time management during the test by setting individual timers for each section of the exam,  providing audible instructions and alerts, allow tests modifications and more - all combined with a simple user interface.
 
